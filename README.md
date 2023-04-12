@@ -24,7 +24,7 @@ Database: MongoDB/SQLite
 - CO2 emission totals and per capita for 200+ countries https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by
 - GDP and population data sourced from : https://databank.worldbank.org/reports.aspx?source=world-development-indicators#   
 - Continent code data:
-https://datahub.io/core/continent-codes p 
+https://datahub.io/core/continent-codes 
 - Geojson for each country sourced from:
 Countries geojson was sourced from: https://datahub.io/core/geo-countries#resource-geo-countries_zip  
  
