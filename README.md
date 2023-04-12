@@ -1,7 +1,7 @@
 
 ### Eco-Analysis - Examining Global Emissions by Country/Continent
 
-####Project Summary: Interest/intend/motivation
+#### Project Summary: 
 The aim of our project is to look in-depth into the global CO2 emissions at the country-level by 
 source (coal, oil, gas, cement, flaring, other) and per capita allowing for a better understanding of
 how much each country contributes to the global cumulative human impact on climate. We will 
@@ -9,7 +9,7 @@ examine relationships between emissions at the country level and GDP trends for 
 We believe that global CO2 emissions matters as there is a linear relationship between the total 
 amount of CO2 released by human activity and the level of warming at the Earth’s surface.
 
-####Questions to consider:
+#### Questions to consider:
 GDP per capita by country and potential impact of global emissions
 Relationship between population and per capita emissions
 Per capita emissions by type (coal, gas, oil, cement, flaring, other)
@@ -20,7 +20,7 @@ amount of CO2 released by human activity and the level of warming at the Earth�
 Python Flask-powered: API, HTML/CSS, JavaScript
 Database: MongoDB/SQLite
 
-####Datasets
+#### Datasets
 - CO2 emission totals and per capita for 200+ countries https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by
 - GDP and population data sourced from : https://databank.worldbank.org/reports.aspx?source=world-development-indicators#   
 - Continent code data:
