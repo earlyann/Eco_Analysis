@@ -10,11 +10,11 @@ We believe that global CO2 emissions matters as there is a linear relationship b
 amount of CO2 released by human activity and the level of warming at the Earth’s surface.
 
 #### Questions to consider:
-GDP per capita by country and potential impact of global emissions
-Relationship between population and per capita emissions
-Per capita emissions by type (coal, gas, oil, cement, flaring, other)
-How a country’s emissions level affects it’s GDP
-What happens to GDP when emissions level gradually decreases
+- GDP per capita by country and potential impact of global emissions
+- Relationship between population and per capita emissions
+- Per capita emissions by type (coal, gas, oil, cement, flaring, other)
+- How a country’s emissions level affects it’s GDP
+- What happens to GDP when emissions level gradually decreases
 
 #### Technologies Used
 Python Flask-powered: API, HTML/CSS, JavaScript
@@ -29,13 +29,11 @@ https://datahub.io/core/continent-codes p
 Countries geojson was sourced from: https://datahub.io/core/geo-countries#resource-geo-countries_zip  
  
 #### Project details:
-Create an interactive map showing global CO2 levels at a point in time that allows users 
+- Create an interactive map showing global CO2 levels at a point in time that allows users 
 to visualize trends by country or continent across all fossil fuel sources
-Compare/Visualize emissions by type (coal, gas, oil, cement, flaring, other) using a table,
+- Compare/Visualize emissions by type (coal, gas, oil, cement, flaring, other) using a summary table,
 bar chart and bubble chart
-Sketch of Final Design
-Three or four screenshots of relevant, “inspiring” visualizations that
-show creative ideas
+
 
 Contributors:
 Haddi Fadia
