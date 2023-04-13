@@ -12,15 +12,15 @@ collection = mongo.db.CO2_gdp_population
 @app.route('/', methods=['GET'])
 def home():
     return """<h1>Eco-Analysis - Examining the intersection of CO2 Emissions, GDP, and Population Data</h1>
-<p>API for CO2 Emissions, GDP, and Population Data</p>
+<h3>API for CO2 Emissions, GDP, and Population Data</h3>
 <p> /api/v1/countries : pulls all the data for all the countries in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries?year=2011">http://127.0.0.1:5000/api/v1/countries?year=2011</a></p>
 <p> /api/v1/countries_per_capita : pulls all the per capita data (CO2 and GDP) for all countries for all years in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011">http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011</a></p>
 <p> /api/v1/countries_totals : pulls all the totals data (CO2, GDP, and Population) for all countries for all years in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries_totals?year=2011">http://127.0.0.1:5000/api/v1/countries_totals?year=2011</a></p>
 <p> /api/v1/country/{country_code} : pulls all the data for all a country based on country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country/USA?year=2011">http://127.0.0.1:5000/api/v1/country/USA?year=2011</a></p>
 <p> /api/v1/country_per_capita/{country_code} : pulls all the per capita data (CO2 and GDP) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011">http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011</a></p>
-<p> /api/v1/country_totals/{country_code} : pulls all the totals data (CO2, GDP, and Population) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country_totals/USA?year=2011">http://127.0.0.1:5000/api/v1/country_totals/USA?year=2011</a></p>
-<p> /api/v1/geojson_countries/ : pulls all boundary coordinates for all countries. Example: <a href="http://127.0.0.1:5000/api/v1/geojson_countries">http://127.0.0.1:5000/api/v1/geojson_countries</a></p>
-<p> /api/v1/geojson_country/{country_code}: pulls the geojson for one country. Example: <a href="http://127.0.0.1:5000/api/v1/geojson_country/USA">http://127.0.0.1:5000/api/v1/geojson_country/USA</a></p>
+<p> /api/v1/country_totals/{country_code} : pulls all the totals data (CO2, GDP, and Population) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country/USA?year=2011">http://127.0.0.1:5000/api/v1/country/USA?year=2011</a></p>
+<p> /api/v1/continent_per_capita/{continent_code} : pulls all the totals data (CO2, GDP, and Population) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011">/http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011</a></p>
+<p> /api/v1/continent_totals/{continent_code} : pulls all the per capita data (CO2 and GDP) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011">http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011</a></p>
 """
 
 # get all the data for all the countries for all the years, optional query parameter for year 
@@ -86,6 +86,7 @@ def get_country_data(country_code):
         item.pop('_id', None)
     return jsonify(result)
 
+
 # Get all the per capita data for a specific country code for all the years
 # Type: Total CO2 and Type: GDP + Category: GDP per capita (current US$)
 @app.route('/api/v1/country_per_capita/<country_code>', methods=['GET'])
@@ -105,10 +106,9 @@ def get_per_capita_country_data(country_code):
         item.pop('_id', None)
     return jsonify(result)
 
-
-# Type: Total CO2 and Type: GDP + Categories (GDP (current US$), Population, total) for a specific country code
+# Type: Total CO2 and Type: GDP + Category: GDP per capita (current US$)
 @app.route('/api/v1/country_totals/<country_code>', methods=['GET'])
-def get_totals_country_data(country_code):
+def get_per_country_totals_data(country_code):
     year = request.args.get('year')
     query = {
         "Country Code": country_code,
@@ -126,48 +126,68 @@ def get_totals_country_data(country_code):
     return jsonify(result)
 
 
-#Geojson calls  
 
-# Get all the geojson data for all the countries
-@app.route('/api/v1/geojson_countries', methods=['GET'])
-def get_global_geojson():
-    result = list(mongo.db.country_geojson_data.find({}))
+# Get all the per capita data for a specific continent code for all the years
+# Type: Total CO2 and Type: GDP + Category: GDP per capita (current US$)
+@app.route('/api/v1/continent_per_capita/<continent_code>', methods=['GET'])
+def get_per_capita_continent_data(continent_code):
+    year = request.args.get('year')
+    query = {
+        "Continent Code": continent_code,
+        "$or": [
+            {"Type": "PerCapita CO2"},
+            {"Type": "GDP", "Category": "GDP per capita (current US$)"}
+        ]
+    }
+    if year:
+        query["Year"] = int(year)
+    result = list(collection.find(query))
     for item in result:
         item.pop('_id', None)
     return jsonify(result)
 
-# Get all the geojson data for a specific country code
-@app.route('/api/v1/geojson_country/<country_code>', methods=['GET'])
-def get_country_geojson(country_code):
-    result = list(mongo.db.country_geojson_data.find({"Country Code": country_code}))
-    for item in result:
-        item.pop('_id', None)
-    return jsonify(result)
 
-
-# # Get country coordinates from one collection and then that data for a specific year
-# @app.route('/api/v1/map_data', methods=['GET'])
-# def get_global_info():
-#     year = int(request.args.get('year'))
-
-#     # Query country_geojson_data collection
-#     geo_data = list(mongo.db.country_geojson_data.find({}))
-#     for item in geo_data:
-#         item.pop('_id', None)
-
-#     # Query CO2_gdp_population collection
-#     co2_gdp_population_data = list(mongo.db.CO2_gdp_population.find({"Year": year}))
-#     for item in co2_gdp_population_data:
-#         item.pop('_id', None)
-
-#     # Combine data from both collections
-#     result = {
-#         "Year": year,
-#         "Countries": geo_data,
-#         "CO2_gdp_population_data": co2_gdp_population_data
+# Type: Total CO2 and Type: GDP + Categories (GDP (current US$), Population, total) for a specific country code
+# @app.route('/api/v1/continent_per_capita/<continent_code>', methods=['GET'])
+# def get_totals_country_data(continent_code):
+#     year = request.args.get('year')
+#     query = {
+#         "Continent Code": continent_code,
+#         "$or": [
+#             {"Type": "Total CO2"},
+#             {"Type": "GDP", "Category": "GDP (current US$)"},
+#             {"Type": "GDP", "Category": "Population, total"}
+#         ]
 #     }
+#     if year:
+#         query["Year"] = int(year)
+#     result = list(collection.find(query))
+#     for item in result:
+#         item.pop('_id', None)
 #     return jsonify(result)
+
+
+# Get Total CO2 and Type: GDP + Categories (GDP (current US$), Population, total) for a specific continent code
+@app.route('/api/v1/continent_totals/<continent_code>', methods=['GET'])
+def get_totals_continent_data(continent_code):
+    year = request.args.get('year')
+    query = {
+        "Continent Code": continent_code,
+        "$or": [
+            {"Type": "Total CO2"},
+            {"Type": "GDP", "Category": "GDP (current US$)"},
+            {"Type": "GDP", "Category": "Population, total"}
+        ]
+    }
+    if year:
+        query["Year"] = int(year)
+    result = list(collection.find(query))
+    for item in result:
+        item.pop('_id', None)
+    return jsonify(result)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
