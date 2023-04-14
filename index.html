@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Analyzing CO2 Emissions and GDP</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+
+<style>
+  /* DropDown Selector */
+  .stylemenu {
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 20px;
+    border-radius: 25px;
+    height: 135px;
+  }
+
+  .title-subjectID {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    color: rgb(60, 90, 100);
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+
+  /*Demographic Info */
+  .panel-demographic {
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 15px;
+    border-radius: 25px;
+    margin-top: 31px;
+  }
+
+  .panel-primary>.header-demographic {
+    height: 50px;
+    background-color:rgb(60, 90, 100);
+    border-bottom-color: rgb(242, 242, 242);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .panel-title {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.7;
+  }
+
+/* chart boxes */
+.panel-graphs {
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+  }
+
+</style>
+
+<body>
+
+  <div class="container">
+    <!--header for dashboard-->
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>CO2 Emissions Analytics Project</h1>
+      </div>
+    </div>
+    <hr>
+    <!--Dashboard Overview -->
+    <div class = "row">
+      <h2 class = "DashboardTitle"> Project Overview</h2>
+    </div>
+    <div class="row">
+      <!--Demographic Panel and DropDowns -->
+      <div class="col-md-2">
+        <div class="well stylemenu">
+          <h5 class="title-selectYr">Select Year.:</h5>
+          <select id="selYr"></select>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="well stylemenu">
+          <h5 class="title-selectCC">Select Continent.:</h5>
+          <select id="selCC"></select>
+        </div>
+      </div>
+        <div class="panel panel-primary panel-demographic">
+          <div class="header-demographic">
+            <h3 class="panel-title">Summary Statistics</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+        </div>
+      </div>
+      <div class="col-md-8 panel-graphs">
+        <div id="gauge"></div>
+      </div>
+      <div class="col-md-5 panel-graphs">
+        <div id="bar"></div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 panel-graphs">
+        <div id="chart"></div>
+      </div>
+    </div>
+          
+  </div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="app.js"></script>
+  <script src="apexchart.js"></script>
+  
+</body>
+
+</html>
