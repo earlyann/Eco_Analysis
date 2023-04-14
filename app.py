@@ -19,17 +19,17 @@ def home():
 <br>
 <h3> Endpoints that serve all the countries </h3>
 <p> /api/v1/countries : pulls all the data for all the countries in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries?year=2011">http://127.0.0.1:5000/api/v1/countries?year=2011</a></p>
-<p> /api/v1/countries_per_capita : pulls all the per capita data (CO2 and GDP) for all countries for all years in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011">http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011</a></p>
+<p> /api/v1/countries_per_capita : pulls all the per capita data (CO2, GDP and Population) for all countries for all years in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011">http://127.0.0.1:5000/api/v1/countries_per_capita?year=2011</a></p>
 <p> /api/v1/countries_totals : pulls all the totals data (CO2, GDP, and Population) for all countries for all years in the dataset with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/countries_totals?year=2011">http://127.0.0.1:5000/api/v1/countries_totals?year=2011</a></p>
 <br>
 <h3> Endpoints that serve a single country </h3>
 <p> /api/v1/country/{country_code} : pulls all the data for all a country based on country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country/USA?year=2011">http://127.0.0.1:5000/api/v1/country/USA?year=2011</a></p>
-<p> /api/v1/country_per_capita/{country_code} : pulls all the per capita data (CO2 and GDP) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011">http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011</a></p>
+<p> /api/v1/country_per_capita/{country_code} : pulls all the per capita data (CO2, GDP and Population) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011">http://127.0.0.1:5000/api/v1/country_per_capita/USA?year=2011</a></p>
 <p> /api/v1/country_totals/{country_code} : pulls all the totals data (CO2, GDP, and Population) for a country based on the country code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/country_totals/USA?year=2011">http://127.0.0.1:5000/api/v1/country_totals/USA?year=2011</a></p>
 <br>
 <h3> Endpoints that serve a single continent </h3>
-<p> /api/v1/continent_per_capita/{continent_code} : pulls all the totals data (CO2, GDP, and Population) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011">/http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011</a></p>
-<p> /api/v1/continent_totals/{continent_code} : pulls all the per capita data (CO2 and GDP) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011">http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011</a></p>
+<p> /api/v1/continent_per_capita/{continent_code} : pulls all the per capita data (CO2, GDP, and Population) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011">/http://127.0.0.1:5000/api/v1/continent_per_capita/NA?year=2011</a></p>
+<p> /api/v1/continent_totals/{continent_code} : pulls all the totals data (CO2, GDP and Population) for a continent based on the continent code with the option to search by year. Example: <a href="http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011">http://127.0.0.1:5000/api/v1/continent_totals/NA?year=2011</a></p>
 """
 
 # Countries Endpoints
