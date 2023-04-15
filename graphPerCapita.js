@@ -70,95 +70,32 @@ function plotBarChart() {
     // console.log("testgroup",barChart)
 
 /////// Create array for each aspect of stacked bar chart//////////////////////
-    var gas = {
-        x: barChart.map(bC => bC.gas),
-        y: barChart.map(bC => bC.country),
-        name: 'Gas',
-        orientation: 'h',
-        marker: {
-            color: '#4A8DDC',
-            width: 1},
-        type: 'bar'};
-    
-    var oil = {
-        x: barChart.map(bC => bC.oil),
-        y: barChart.map(bC => bC.country),
-        name: 'Oil',
-        orientation: 'h',
-        marker: {
-            color: '#4C5D8A',
-            width: 1},
-        type: 'bar'};
-
-    var coal = {
-        x: barChart.map(bC => bC.coal),
-        y: barChart.map(bC => bC.country),
-        name: 'Coal',
-        orientation: 'h',
-        marker: {
-            color: '#F3C911',
-            width: 1},
-        type: 'bar'};
-
-    var cement = {
-        x: barChart.map(bC => bC.cement),
-        y: barChart.map(bC=> bC.country),
-        name: 'Cement',
-        orientation: 'h',
-        marker: {
-            color: '#DC5B57',
-            width: 1},
-        type: 'bar'};
-    
-    var flaring = {
-        x: barChart.map(bC => bC.flaring),
-        y: barChart.map(bC => bC.country),
-        name: 'Flaring',
-        orientation: 'h',
-        marker: {
-            color: '#33AE81',
-            width: 1},
-        type: 'bar'};
-
-    var other = {
-        x: barChart.map(bC => bC.other),
-        y: barChart.map(bC => bC.country),
-        name: 'Other',
-        orientation: 'h',
-        marker: {
-            color: '#95C8F0',
-            width: 1},
-        type: 'bar'};
-
-    var data = [gas, oil, coal, cement, flaring, other]
-
-    var layout = {
-            title: 'Colored Bar Chart',
-            barmode: 'stack',
-          };
-
-    Plotly.newPlot('bar', data, layout);
-///////////////////////////////////////////////////////////////////////
-var options = {
+var stackedBar = {
     series: [
     
     {name: 'Gas',
-    data: (barChart.map(bC => bC.gas))},
+    data: (barChart.map(bC => bC.gas)),
+    color: '#4A8DDC'},
     
     {name: 'Oil',
-    data: (barChart.map(bC => bC.oil))},
+    data: (barChart.map(bC => bC.oil)),
+    color: '#4C5D8A'},
 
     {name: 'Coal',
-    data: (barChart.map(bC => bC.coal))},
+    data: (barChart.map(bC => bC.coal)),
+    color:'#F3C911'},
 
     {name: 'Cement',
-    data: (barChart.map(bC => bC.cement))},
+    data: (barChart.map(bC => bC.cement)),
+    color: '#DC5B57'},
 
     {name: 'Flaring',
-    data: (barChart.map(bC => bC.flaring))},
+    data: (barChart.map(bC => bC.flaring)),
+    color:'#33AE81'},
 
     {name: 'Other',
-    data: (barChart.map(bC => bC.other))},],
+    data: (barChart.map(bC => bC.other)),
+    color: '#95C8F0'},],
 
     chart: {
     type: 'bar',
@@ -174,8 +111,7 @@ var options = {
     enabled: false},
 
   stroke: {
-    width: 1,
-    colors: ['#fff']},
+    width: 1,},
   title: {text: 'Fiction Books Sales'},
   xaxis: 
    {categories: barChart.map(bC => bC.country)},
@@ -189,7 +125,7 @@ var options = {
     offsetX: 40}
   };
 
-  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  var chart = new ApexCharts(document.querySelector("#bar"), stackedBar);
   chart.render();
 
 };
