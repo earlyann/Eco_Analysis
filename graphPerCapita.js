@@ -8,7 +8,7 @@ var dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSele
 //define constant arrays -- for drop down and to loop through
 let dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
 let dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
-const buckets = ['Coal', 'Oil', 'Gas', 'Cement', 'Flaring', 'Other']
+const buckets = ['Coal', 'Oil', 'Gas', 'Cement', 'Flaring', 'Other', 'Total']
 
 let rawData = null
 let type = null
@@ -16,57 +16,63 @@ let type = null
 ////////////////////////////////////////////////////t//////////////////////
 function plotBarChart() {
     
-    let perCap = []
+    let parts = []
+    let tableSum = []
 
     // filter URL data for perCapita data
     rawData.forEach((rD) => {
-        if (rD.Type === 'PerCapita CO2') {
-            perCap .push(rD)};
-    });
+        if (buckets.some((b) => {
+            return b === rD.Category}))
+            parts.push(rD)
 
-    const country = [];
+        else tableSum.push(rD)},
+        console.log("TableData", tableSum),
+        console.log("GraphData", parts))
+
+    const cnty = [];
     // loop through data to generate list of countries for given year
-    perCap .forEach(pC => {
-        if(!country.some(c => c === pC.Country)) {
-            country.push(pC.Country)}},
+    parts.forEach(p => {
+        if(!cnty.some(c => c === p.Country)) {
+            cnty.push(p.Country)}},
     );
-    console.log("Country List", country)
+    console.log("Country List", cnty)
     
-    let dataToChart = []
+    let barChart = []
     // Outer Loop iterates over countries / Inner Loop iterates over Category. 
     // for each country returns object with category and value
-    country.forEach ((c) => {
-        const countrybuckets = []
-        perCap .forEach((pC) => {
-            if (pC.Country === c) {
+    cnty.forEach ((c) => {
+        const cntybuckets = []
+        parts .forEach((p) => {
+            if (p.Country === c) {
                 if (buckets.some((b) => {
-                    return b === pC.Category
+                    return b === p.Category
                 })) {
-                    countrybuckets.push({
-                        category: pC.Category,
-                        value: pC.Value
-                    });    
-                    } 
+                    cntybuckets.push({
+                        category: p.Category,
+                        value: p.Value
+                    });
+                    }
                 };
             },
         )
 
-        dataToChart.push({
+        barChart.push({
             country:c,
-            oil: countrybuckets.find(cb => cb.category === 'Oil').value,
-            coal: countrybuckets.find(cb =>cb.category === 'Coal').value, 
-            gas: countrybuckets.find(cb => cb.category === 'Gas').value ,
-            cement: countrybuckets.find(cb => cb.category === 'Cement').value, 
-            flaring: countrybuckets.find(cb => cb.category === 'Flaring').value, 
-            other: countrybuckets.find(cb => cb.category === 'Other').value
+            oil: cntybuckets.find(cb => cb.category === 'Oil').value,
+            coal: cntybuckets.find(cb =>cb.category === 'Coal').value, 
+            gas: cntybuckets.find(cb => cb.category === 'Gas').value ,
+            cement: cntybuckets.find(cb => cb.category === 'Cement').value, 
+            flaring: cntybuckets.find(cb => cb.category === 'Flaring').value, 
+            other: cntybuckets.find(cb => cb.category === 'Other').value,
+            total: cntybuckets.find(cb => cb.category === 'Total').value
         })
     });
-    console.log("testgroup",dataToChart)
+    // console.log("testgroup",barChart)
 
 /////// Create array for each aspect of stacked bar chart//////////////////////
     var gas = {
-        x: dataToChart.map(dtc => dtc.gas),
-        y: dataToChart.map(dtc => dtc.country),
+        x: barChart.map(bC => bC.gas),
+        y: barChart.map(bC => bC.country),
         name: 'Gas',
         orientation: 'h',
         marker: {
@@ -75,8 +81,8 @@ function plotBarChart() {
         type: 'bar'};
     
     var oil = {
-        x: dataToChart.map(dtc => dtc.oil),
-        y: dataToChart.map(dtc => dtc.country),
+        x: barChart.map(bC => bC.oil),
+        y: barChart.map(bC => bC.country),
         name: 'Oil',
         orientation: 'h',
         marker: {
@@ -85,8 +91,8 @@ function plotBarChart() {
         type: 'bar'};
 
     var coal = {
-        x: dataToChart.map(dtc => dtc.coal),
-        y: dataToChart.map(dtc => dtc.country),
+        x: barChart.map(bC => bC.coal),
+        y: barChart.map(bC => bC.country),
         name: 'Coal',
         orientation: 'h',
         marker: {
@@ -95,9 +101,9 @@ function plotBarChart() {
         type: 'bar'};
 
     var cement = {
-        x: dataToChart.map(dtc => dtc.cement),
-        y: dataToChart.map(dtc => dtc.country),
-        name: 'Gas',
+        x: barChart.map(bC => bC.cement),
+        y: barChart.map(bC=> bC.country),
+        name: 'Cement',
         orientation: 'h',
         marker: {
             color: '#DC5B57',
@@ -105,9 +111,9 @@ function plotBarChart() {
         type: 'bar'};
     
     var flaring = {
-        x: dataToChart.map(dtc => dtc.flaring),
-        y: dataToChart.map(dtc => dtc.country),
-        name: 'Oil',
+        x: barChart.map(bC => bC.flaring),
+        y: barChart.map(bC => bC.country),
+        name: 'Flaring',
         orientation: 'h',
         marker: {
             color: '#33AE81',
@@ -115,9 +121,9 @@ function plotBarChart() {
         type: 'bar'};
 
     var other = {
-        x: dataToChart.map(dtc => dtc.other),
-        y: dataToChart.map(dtc => dtc.country),
-        name: 'Coal',
+        x: barChart.map(bC => bC.other),
+        y: barChart.map(bC => bC.country),
+        name: 'Other',
         orientation: 'h',
         marker: {
             color: '#95C8F0',
@@ -132,6 +138,60 @@ function plotBarChart() {
           };
 
     Plotly.newPlot('bar', data, layout);
+///////////////////////////////////////////////////////////////////////
+var options = {
+    series: [
+    
+    {name: 'Gas',
+    data: (barChart.map(bC => bC.gas))},
+    
+    {name: 'Oil',
+    data: (barChart.map(bC => bC.oil))},
+
+    {name: 'Coal',
+    data: (barChart.map(bC => bC.coal))},
+
+    {name: 'Cement',
+    data: (barChart.map(bC => bC.cement))},
+
+    {name: 'Flaring',
+    data: (barChart.map(bC => bC.flaring))},
+
+    {name: 'Other',
+    data: (barChart.map(bC => bC.other))},],
+
+    chart: {
+    type: 'bar',
+    height: 1500,
+    stacked: true,
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true},
+  },
+
+  dataLabels: {
+    enabled: false},
+
+  stroke: {
+    width: 1,
+    colors: ['#fff']},
+  title: {text: 'Fiction Books Sales'},
+  xaxis: 
+   {categories: barChart.map(bC => bC.country)},
+  yaxis: {
+    title: {
+      text: "Country Emissions"},},
+
+  legend: {
+    position: 'top',
+    horizontalAlign: 'left',
+    offsetX: 40}
+  };
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+  chart.render();
+
 };
 
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
@@ -145,6 +205,7 @@ function init() {
     // Fetch the JSON data and assign properties to global variables
     d3.json(dataURL).then(function(data) {
         rawData = data
+        console.log("RawData", rawData)
 
         // append year to drop down selector
         dropDownYear.reverse()
@@ -169,28 +230,23 @@ function init() {
         // define event listener for drop down selection change on Year
         selectYr.on('change', function() {
             yearSelected = selectYr.property("value")
-            
             dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
 
         // Fetch the JSON data and assign properties to global variables
                 d3.json(dataURL).then(function(data) {
                     rawData = data
-                    console.log("YearSelection", rawData)
                     plotBarChart()
                 });
-                console.log("Test", yearSelected);
             });
 
         // define event listener for drop down selection change on Continent Code
         selectCC.on('change', function() {
-            continentSelected = selectCC.property("value")
-            
+            continentSelected = selectCC.property("value")            
             dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
 
         // Fetch the JSON data and assign properties to global variables
                 d3.json(dataURL).then(function(data) {
                     rawData = data
-                    console.log("YearSelection", rawData)
                     plotBarChart()
                 });
             });
