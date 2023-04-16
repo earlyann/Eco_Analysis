@@ -1,4 +1,3 @@
-
 let yearSelected = 2019
 let continentSelected = 'AF'
 
@@ -15,7 +14,7 @@ let type = null
 
 ////////////////////////////////////////////////////t//////////////////////
 function plotBarChart() {
-    
+    let sortChartData = []    
     let parts = []
     let tableSum = []
 
@@ -26,8 +25,7 @@ function plotBarChart() {
             parts.push(rD)
 
         else tableSum.push(rD)},
-        console.log("TableData", tableSum),
-        console.log("GraphData", parts))
+    );
 
     const cnty = [];
     // loop through data to generate list of countries for given year
@@ -35,8 +33,7 @@ function plotBarChart() {
         if(!cnty.some(c => c === p.Country)) {
             cnty.push(p.Country)}},
     );
-    console.log("Country List", cnty)
-    
+        
     let barChart = []
     // Outer Loop iterates over countries / Inner Loop iterates over Category. 
     // for each country returns object with category and value
@@ -47,6 +44,7 @@ function plotBarChart() {
                 if (buckets.some((b) => {
                     return b === p.Category
                 })) {
+                    // console.log('Country, Category, Value', `${p.Country}: ${p.Category}: ${p.Value}`);
                     cntybuckets.push({
                         category: p.Category,
                         value: p.Value
@@ -65,69 +63,64 @@ function plotBarChart() {
             flaring: cntybuckets.find(cb => cb.category === 'Flaring').value, 
             other: cntybuckets.find(cb => cb.category === 'Other').value,
             total: cntybuckets.find(cb => cb.category === 'Total').value
-        })
-    });
+        }),
+
+        // Sort bargraph data by total emissions for stacked bar chart 
+        sortChartData = barChart.sort((d1, d2) => {
+            return d2.total - d1.total});
     // console.log("testgroup",barChart)
 
 /////// Create array for each aspect of stacked bar chart//////////////////////
-var stackedBar = {
+var data = null
+
+data = {
     series: [
-    
-    {name: 'Gas',
-    data: (barChart.map(bC => bC.gas)),
-    color: '#4A8DDC'},
-    
-    {name: 'Oil',
-    data: (barChart.map(bC => bC.oil)),
-    color: '#4C5D8A'},
+        
+        {name: 'Gas',
+        data: (barChart.map(bC => bC.gas)),
+        color: '#4A8DDC'},
+        
+        {name: 'Oil',
+        data: (barChart.map(bC => bC.oil)),
+        color: '#4C5D8A'},
 
-    {name: 'Coal',
-    data: (barChart.map(bC => bC.coal)),
-    color:'#F3C911'},
+        {name: 'Coal',
+        data: (barChart.map(bC => bC.coal)),
+        color:'#F3C911'},
 
-    {name: 'Cement',
-    data: (barChart.map(bC => bC.cement)),
-    color: '#DC5B57'},
+        {name: 'Cement',
+        data: (barChart.map(bC => bC.cement)),
+        color: '#DC5B57'},
 
-    {name: 'Flaring',
-    data: (barChart.map(bC => bC.flaring)),
-    color:'#33AE81'},
+        {name: 'Flaring',
+        data: (barChart.map(bC => bC.flaring)),
+        color:'#33AE81'},
 
-    {name: 'Other',
-    data: (barChart.map(bC => bC.other)),
-    color: '#95C8F0'},],
+        {name: 'Other',
+        data: (barChart.map(bC => bC.other)),
+        color: '#95C8F0'},
+    ],
 
-    chart: {
-    type: 'bar',
-    height: 1500,
-    stacked: true,
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true},
-  },
+    chart: {type: 'bar', height: 1500, stacked: true},
 
-  dataLabels: {
-    enabled: false},
+    plotOptions: {bar: {horizontal: true}},
 
-  stroke: {
-    width: 1,},
-  title: {text: 'Fiction Books Sales'},
-  xaxis: 
-   {categories: barChart.map(bC => bC.country)},
-  yaxis: {
-    title: {
-      text: "Country Emissions"},},
+    dataLabels: {enabled: false},
 
-  legend: {
-    position: 'top',
-    horizontalAlign: 'left',
-    offsetX: 40}
-  };
+    stroke: {width: 1,},
 
-  var chart = new ApexCharts(document.querySelector("#bar"), stackedBar);
+    title: {text: 'Fiction Books Sales'},
+    xaxis: {categories: barChart.map(bC => bC.country)},
+
+    yaxis: {title: {text: "Country Emissions"}},
+
+    legend: {position: 'top', horizontalAlign: 'left', offsetX: 40},
+};
+
+  var chart = new ApexCharts(document.querySelector("#bar"), data);
   chart.render();
 
+    });
 };
 
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
@@ -171,6 +164,7 @@ function init() {
         // Fetch the JSON data and assign properties to global variables
                 d3.json(dataURL).then(function(data) {
                     rawData = data
+                    barChart = []
                     plotBarChart()
                 });
             });
@@ -183,6 +177,7 @@ function init() {
         // Fetch the JSON data and assign properties to global variables
                 d3.json(dataURL).then(function(data) {
                     rawData = data
+                    barchart = []
                     plotBarChart()
                 });
             });
