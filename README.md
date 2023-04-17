@@ -1,5 +1,5 @@
 
-### Eco-Analysis - Examining Global Emissions by Country/Continent
+### Eco-Analysis - Examining Global Emissions, GDP and Population
 
 #### Project Summary: 
 The aim of our project is to look in-depth into the global CO2 emissions at the country-level by 
@@ -17,8 +17,12 @@ amount of CO2 released by human activity and the level of warming at the Earthâ€
 - What happens to GDP when emissions level gradually decreases
 
 #### Technologies Used
-Python Flask-powered: API, HTML/CSS, JavaScript
-Database: MongoDB/SQLite
+- Python/Pandas
+- MongoDB
+- Flask API 
+- HTML/CSS
+- JavaScript
+
 
 #### Datasets
 - CO2 emission totals and per capita for 200+ countries https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by
