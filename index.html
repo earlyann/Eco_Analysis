@@ -100,7 +100,8 @@
         </div>
       </div>
     </div>
-      <div class="col-md-2">
+
+      <div class="col-md-10">
         <div class="well stylemenu">
             <h5 class="title-selectYr">Select Year.:</h5>
             <select id="selYr"></select>
@@ -110,13 +111,36 @@
           <select id="selCC"></select>
         </div>
       </div>
-      <div class="col-md-5">
+
+      <div class="row">
+      <table id="myTable">
+        <tr>
+          <th> Country </th>
+          <th> Total CO2 per Capita</th>
+          <th> GDP per Capita</th>
+          <th> Population </th>
+        </tr>
+      </table>
+
+      <div class="col-md-10">
+        <div id="bar"></div>
+
+
+        
+      </div>
+
+
+      <div class="col-md-10">
         <div id="bar"></div>
       </div>
+
       <div class="col-md-10">
         <div id="bubble"></div>
       </div>
-
+      
+      <div class="col-md-10">
+        <div id="bubbles" style="height: 100vh;"></div>
+      </div>
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
