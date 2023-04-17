@@ -14,30 +14,30 @@ const dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
 ////////////////////////////////////////////////////t//////////////////////
 function keymetrics() {
     // loop through data to generate list of countries for given year
-    const cntyCd = []
+    const cnty = []
     rawData.forEach(rD => {
-        if(!cntyCd.some(c => c === rD['Country Code'])) {
-            cntyCd.push(rD['Country Code'])}},
+        if(!cnty.some(c => c === rD.Country)) {
+            cnty.push(rD.Country)}},
         // console.log("Country Code", cntyCd)
     );
     
     // loop through data to generate list of categories for given year
     const categories = []    
     rawData.forEach(rD => {
-        if(!categories.some(c => c === rD['Category'])) {
-            categories.push(rD['Category'])}},
+        if(!categories.some(c => c === rD.Category)) {
+            categories.push(rD.Category)}},
         // console.log("Categories", categories)
     );
 
     const bubblechart = []
     const formatData = []
     // Outer Loop iterates over countries / Inner Loop iterates over Category. for each country returns object with category and value
-    cntyCd.forEach ((c) => {
+    cnty.forEach ((c) => {
         const cntyCategories = []
         rawData.forEach((rD) => {
-            if (rD['Country Code'] === c) {
+            if (rD.Country === c) {
                 if (categories.some((cC) => {
-                    return cC === rD['Category']
+                    return cC === rD.Category
                 })) {
                     // console.log('Country, Category, Value', `${rD['Country Code']}: ${rD.Category}: ${rD.Value}`);
                     cntyCategories.push({
@@ -51,23 +51,16 @@ function keymetrics() {
         
     formatData.push({
         country:c,
-        oil: cntyCategories.find(cb => cb.category === 'Oil').value,
-        coal: cntyCategories.find(cb =>cb.category === 'Coal').value, 
-        gas: cntyCategories.find(cb => cb.category === 'Gas').value,
-        cement: cntyCategories.find(cb => cb.category === 'Cement').value, 
-        flaring: cntyCategories.find(cb => cb.category === 'Flaring').value, 
-        other: cntyCategories.find(cb => cb.category === 'Other').value,
-        total: cntyCategories.find(cb => cb.category === 'Total').value,
-        gdp: cntyCategories.find(cb => cb.category === 'GDP per capita (current US$)').value,
-        population: cntyCategories.find(cb => cb.category === 'Population, total').value,
+        oil: cntyCategories.find(cC => cC.category === 'Oil').value,
+        coal: cntyCategories.find(cC =>cC.category === 'Coal').value, 
+        gas: cntyCategories.find(cC => cC.category === 'Gas').value,
+        cement: cntyCategories.find(cC => cC.category === 'Cement').value, 
+        flaring: cntyCategories.find(cC => cC.category === 'Flaring').value, 
+        other: cntyCategories.find(cC => cC.category === 'Other').value,
+        total: cntyCategories.find(cC => cC.category === 'Total').value,
+        gdp: cntyCategories.find(cC => cC.category === 'GDP per capita (current US$)').value,
+        population: cntyCategories.find(cC => cC.category === 'Population, total').value/1000000,
     });
-
-    bubblechart.push({
-        country:c,
-        total: cntyCategories.find(cb => cb.category === 'Total').value,
-        gdp: cntyCategories.find(cb => cb.category === 'GDP per capita (current US$)').value,
-        population: cntyCategories.find(cb => cb.category === 'Population, total').value/1000000,
-    });     
 
     // Sort bargraph data by total emissions for stacked bar chart 
     formatData.sort((d1, d2) => {
@@ -104,7 +97,7 @@ function keymetrics() {
           height: 1100,
           stacked: true},
 
-        title: {text: 'Per Capital CO2 Emissions by Category'},
+        title: {text: 'Per Capita CO2 Emissions by Category'},
 
         xaxis: {categories: formatData.map(fD => fD.country)},
    
@@ -123,49 +116,98 @@ function keymetrics() {
     var chart = new ApexCharts(document.querySelector("#bar"), options);
     chart.render();
 ////////////////////////////////////////////////////////////////////////////////////
+
+let dataBubble = formatData.map(dB => {
+    return [
+        dB.total,
+        dB.gdp,
+        dB.population
+    ]})
+
+    console.log(dataBubble)
+
+// function generateData(baseval, count, yrange) {
+//     var i = 0;
+//     var series = [];
+//     while (i < count) {
+//       series.push([
+//       	Math.floor(Math.random() * (750 - 1 + 1)) + 1, 
+//       	Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min, 
+//       	Math.floor(Math.random() * (75 - 15 + 1)) + 15
+//       ]);
+
+//       console.log("Test", series),
+//       baseval += 86400000;
+//       i++;
+//     }
+//     return series;
+//   }
+
+//   var chart = new ApexCharts(
+//     document.querySelector('#bubble'), {
+//       chart: { height: 350, type: 'bubble', },
+//       dataLabels: { enabled: false },
+//       colors: ["red"],
+//       series: [
+//         { name: 'Bubble1', data: generateData(new Date('11 Feb 2017 GMT').getTime(), 20, { min: 10, max: 60 }) }
+//       ],
+//       fill: { opacity: 0.8 },
+//       title: { text: 'Simple Bubble Chart' },
+//       xaxis: { tickAmount: 12, type: 'category' },
+//       yaxis: { max: 70 }
+//     }
+//   );
+
+//   chart.render();
+
  // declare layout for bubblechart
 
- var bubble = [{
-    x:(bubblechart.map(bC => bC.total)),
-    y: ((bubblechart.map(bC => bC.gdp))),
-    mode: 'markers',
-    marker: {
-        size:(bubblechart.map(bC => bC.population))}}] 
+//  var bubble = [{
+//     x: formatData.map(fD => fD.total),
+//     y: ((formatData.map(fD => fD.gdp))),
+//     text: formatData.map(fD => fD.country),
+//     mode: 'markers',
+//     marker: {
+//         size:25,
+//         sizemode: 'area',
+//         color:  formatData.map(fD => fD.total),
+//         colorscale: 'Portland',
+//         opacity: 0.8},},];
 
- var bubbleLayout = {
-    title: {
-        text: `Total CO2 Emissions` ,
-        font: {
-            family: 'Times New Roman',
-            size: 18,
-            color: 'dark gray',
-            },
-    },
-    autosize: true,
-    responsive: true,
-    xaxis: {
-        automargin: true,
-        title: {
-            text: 'Total CO2 Emissions',
-            font: {
-                family: 'Times New Roman',
-                size: 14,
-                color: 'dark gray',
-                },
-        },
-    },
-    yaxis: { 
-        automargin: true,
-        title: {
-            text: 'GDP per Capita',
-            font: {
-                family: 'Times New Roman',
-                size: 14,
-                color: 'dark gray',
-                },
-        },
-    },};
-    Plotly.newPlot('bubble', bubble, bubbleLayout)
+//  var bubbleLayout = {
+//     title: {
+//         text: `Overview of a country's per Capita CO2 emissions & GDP` ,
+//         font: {
+//             family: 'Times New Roman',
+//             size: 18,
+//             color: 'dark gray',
+//             },
+//     },
+//     autosize: true,
+//     responsive: true,
+//     xaxis: {
+//         automargin: true,
+//         title: {
+//             text: 'Total CO2 Emissions per Capita',
+//             font: {
+//                 family: 'Times New Roman',
+//                 size: 14,
+//                 color: 'dark gray',
+//                 },
+//         },
+//     },
+//     yaxis: { 
+//         automargin: true,
+//         title: {
+//             text: 'GDP per Capita',
+//             font: {
+//                 family: 'Times New Roman',
+//                 size: 14,
+//                 color: 'dark gray',
+//                 },
+//         },
+//     },};
+//     Plotly.newPlot('bubble', bubble, bubbleLayout)
 };
 ////////////////////////////////////
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
