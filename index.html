@@ -7,6 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>CO2 Emissions Analysis</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+
+  <!-- Leaflet JavaScript code -->
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!-- D3 library -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 
 
@@ -86,11 +99,29 @@
       </div>
     </div>
     <hr>
+
     <!--Dashboard Overview -->
     <div class = "row">
       <h2 class = "DashboardTitle"> Dashboard Overview</h2>
       <hr>
       <h4> Use the interactive graphics on this page to explore the belly button dataset </h4><br>
+
+      <!--DropDowns -->
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+              <h5 class="title-selectYr">Select Year.:</h5>
+              <select id="selYr"></select>
+          </div></div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+            <h5 class="title-selectCC">Select Continent.:</h5>
+            <select id="selCC"></select>
+          </div>
+        </div></div>
+<!-- 
       <p class="DashboardDescription"> 
         <br>
         <br> <u><b> There are four different visuals displayed on the dashboard: </b></u><br>
@@ -99,26 +130,28 @@
           <li> <b> Map :</b>  </li>
           <li> <b> Stacked Bar Chart: </b> </li>
           <li> <b> Bubble Chart: </b> </li>
-        </ol><br></p> -
-      </p>
-    </div>
+        </ol><br>
+    </div> -->
 
     <div class="row">
-      <div class="col-md-2">
-        <div class="well stylemenu">
-            <h5 class="title-selectYr">Select Year.:</h5>
-            <select id="selYr"></select>
-        </div></div>
-
-    <div class="row">
-      <div class="col-md-2">
-        <div class="well stylemenu">
-          <h5 class="title-selectCC">Select Continent.:</h5>
-          <select id="selCC"></select>
+      <div class="panel panel-primary panel-section">
+        <div class="header-section">
+          <h3 class="panel-title">"Placeholder Title for Chlorepleth"</h3>  
         </div>
       </div>
+    </div>
+    <!-- map div -->
+    <div class="row">
+    <div class="col-md-10">
+    <div id="map" style="width: 1225px; height: 750px"></div></div></div>
 
+    <!-- table-->
       <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title"> KPI Summary</h3>  
+          </div>
+        </div>
       <table id="myTable">
         <!-- <tr>
           <th> Country </th>
@@ -129,37 +162,44 @@
       </table>
       </div>
 
-    
-    <!--DropDowns -->
     <div class="row">
-
       <div class="panel panel-primary panel-section">
         <div class="header-section">
           <h3 class="panel-title">Per Capita CO2 Emissions - by Country</h3>  
         </div>
       </div>
     </div>
+
       <div class="row">
-      <div class="col-md-5">
-        <div id="simpleBar"></div>
+        <div class="col-md-5">
+          <div id="simpleBar"></div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+          <div id="stackedBar"></div>
+        </div>
       </div>
-      <div class="col-md-2"></div>
-      <div class="col-md-5">
-        <div id="stackedBar"></div>
-      </div>
+
       <div class="row">
-      <div class="col-md-10">
-        <div id="tree"></div>
-      </div></div>
-      
-      <div class="col-md-10">
-        <div id="bubbles" style="height: 100vh;"></div>
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title">Total CO2 Emissions - by Country</h3>  
+          </div>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div id="tree"></div>
+        </div>
+      </div>
+
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="continentpercapita.js"></script>
   <script src="continenttotal.js"></script>
+  <script type="text/javascript" src="mapPlot.js"></script>
   
 </body>
 
