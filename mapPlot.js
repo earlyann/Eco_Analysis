@@ -36,12 +36,18 @@ function baseMap () {
               fillOpacity: 0.9
             });
           },
-        })
+          // change opacity back when mouse out of country
+          mouseout: function(event) {
+            layer = event.target;
+            layer.setStyle({
+              fillOpacity: 0.5
+            });
+          }
+        }).addTo(myMap);
       }
-    }).addTo(myMap);
-  });
+    })
+  })
 };
-
 
 // function to read data, populate initial graphs
 function setup() {
