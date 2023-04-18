@@ -87,20 +87,12 @@ function plotStackedBar (formatData) {
           enabled: false,
           style: {colors: ["#000"]}},
 
-        //   enabledOnSeries: [4],
-        //   textAnchor: "left",
-        //   formatter: function (_val, opt) {
-        //     let series = opt.w.config.series
-        //     let idx = opt.dataPointIndex
-        //     const total = series.reduce((total, self) => total + self.data[idx], 0)
-        //     return total + "x"}
-
         chart: {
           type: 'bar',
-          height: 1100,
+          height: 800,
           stacked: true},
 
-        title: {text: 'Per Capita CO2 Emissions by Category'},
+        title: {text: 'CO2 Emissions by Category (Per Capita)'},
 
         xaxis: {categories: formatData.map(fD => fD.country)},
    
@@ -110,9 +102,10 @@ function plotStackedBar (formatData) {
               return val + "x"}}},
         
         legend: {
-          position: 'bottom',
+          position: 'right',
           align: 'right',
-          offsetX: 40
+          offsetY: 30,
+          fontSize: '11'
         }
       };
       
@@ -137,10 +130,10 @@ function plotSimpleBar (formatData) {
 
         chart: {
           type: 'bar',
-          height: 1100,
+          height: 800,
           stacked: true},
 
-        title: {text: 'Total Per Capita CO2 Emissions'},
+        title: {text: 'CO2 Emissions (Per Capita)'},
 
         xaxis: {categories: formatData.map(fD => fD.country)},
    
@@ -159,91 +152,91 @@ function plotSimpleBar (formatData) {
     var chart = new ApexCharts(document.querySelector("#simpleBar"), options);
     chart.render();
 };
-//////////////////////--APEX BUBBLE CHART --//////////////////////////////
-function plotBubbleChart (formatData) {
-    let dataBubble = formatData.map(dB => {
-        return {
-            name: dB.country,
-            data: [[
-                dB.total,
-                dB.gdp,
-                dB.population
-            ]]
-        }
-    })
+// //////////////////////--APEX BUBBLE CHART --//////////////////////////////
+// function plotBubbleChart (formatData) {
+//     let dataBubble = formatData.map(dB => {
+//         return {
+//             name: dB.country,
+//             data: [[
+//                 dB.total,
+//                 dB.gdp,
+//                 dB.population
+//             ]]
+//         }
+//     })
     
-    let axisLimit = formatData.map(dB => {
-        return {
-            yaxis: dB.gdp
-        }
-    },)
+//     let axisLimit = formatData.map(dB => {
+//         return {
+//             yaxis: dB.gdp
+//         }
+//     },)
 
-    // Sort y-axis values to determin max
-    axisLimit.sort((d1, d2) => {
-        return d2.yaxis - d1.yaxis});
+//     // Sort y-axis values to determin max
+//     axisLimit.sort((d1, d2) => {
+//         return d2.yaxis - d1.yaxis});
 
-    var bubbleChart = new ApexCharts(
-        document.querySelector('#bubble'), {
-            chart: {type: 'bubble', },
-            dataLabels: {enabled: false },
-            series: dataBubble,
-            fill: { opacity: 0.8 },
-            title: { text: 'Simple Bubble Chart' },
-            xaxis: {tickAmount: 10, type: 'category' },
-            yaxis: {max: (axisLimit[0].yaxis)  }
-        }
-    );
-    bubbleChart.render();
-};
-///////////////-- PLOTLY BUBBLECHART -- ///////////////////////////////////
-function plotSimpleBubble (formatData) {
+//     var bubbleChart = new ApexCharts(
+//         document.querySelector('#bubble'), {
+//             chart: {type: 'bubble', },
+//             dataLabels: {enabled: false },
+//             series: dataBubble,
+//             fill: { opacity: 0.8 },
+//             title: { text: 'Simple Bubble Chart' },
+//             xaxis: {tickAmount: 10, type: 'category' },
+//             yaxis: {max: (axisLimit[0].yaxis)  }
+//         }
+//     );
+//     bubbleChart.render();
+// };
+// ///////////////-- PLOTLY BUBBLECHART -- ///////////////////////////////////
+// function plotSimpleBubble (formatData) {
     
-    var bubble = [{
-        x: formatData.map(fD => fD.total),
-        y: (formatData.map(fD => fD.gdp)),
-        text: formatData.map(fD => fD.country),
-        mode: 'markers',
-        marker: {
-            size:formatData.map(fD => fD.population),
-            color:  formatData.map(fD => fD.total),
-            colorscale: 'Portland',
-            opacity: 0.8},},];
+//     var bubble = [{
+//         x: formatData.map(fD => fD.total),
+//         y: (formatData.map(fD => fD.gdp)),
+//         text: formatData.map(fD => fD.country),
+//         mode: 'markers',
+//         marker: {
+//             size:formatData.map(fD => fD.population),
+//             color:  formatData.map(fD => fD.total),
+//             colorscale: 'Portland',
+//             opacity: 0.8},},];
 
-    var bubbleLayout = {
-        title: {
-            text: `Overview of a country's per Capita CO2 emissions & GDP` ,
-            font: {
-                family: 'Times New Roman',
-                size: 18,
-                color: 'dark gray',
-                },
-        },
-        autosize: true,
-        responsive: true,
-        xaxis: {
-            automargin: true,
-            title: {
-                text: 'Total CO2 Emissions per Capita',
-                font: {
-                    family: 'Times New Roman',
-                    size: 14,
-                    color: 'dark gray',
-                    },
-            },
-        },
-        yaxis: { 
-            automargin: true,
-            title: {
-                text: 'GDP per Capita',
-                font: {
-                    family: 'Times New Roman',
-                    size: 14,
-                    color: 'dark gray',
-                    },
-            },
-        },};
+//     var bubbleLayout = {
+//         title: {
+//             text: `Overview of a country's per Capita CO2 emissions & GDP` ,
+//             font: {
+//                 family: 'Times New Roman',
+//                 size: 18,
+//                 color: 'dark gray',
+//                 },
+//         },
+//         autosize: true,
+//         responsive: true,
+//         xaxis: {
+//             automargin: true,
+//             title: {
+//                 text: 'Total CO2 Emissions per Capita',
+//                 font: {
+//                     family: 'Times New Roman',
+//                     size: 14,
+//                     color: 'dark gray',
+//                     },
+//             },
+//         },
+//         yaxis: { 
+//             automargin: true,
+//             title: {
+//                 text: 'GDP per Capita',
+//                 font: {
+//                     family: 'Times New Roman',
+//                     size: 14,
+//                     color: 'dark gray',
+//                     },
+//             },
+//         },};
 
-Plotly.newPlot('bubbles', bubble, bubbleLayout)};
+// Plotly.newPlot('bubbles', bubble, bubbleLayout)};
 
 //////////////-- SUMMARY TABLE ----//////////////////////////////////
 function createTable(formatData) {
@@ -252,9 +245,19 @@ function createTable(formatData) {
     table.innerHTML = '';
     let headerRow = document.createElement('tr');
     let header1 = document.createElement('th');
+    let header2 = document.createElement('th');
+    let header3 = document.createElement('th');
+    let header4 = document.createElement('th');
+
     header1.innerText = 'Country';
+    header2.innerText = 'Total CO2 Per Capita';
+    header3.innerText = 'GDP Per Capita';
+    header4.innerText = 'Population (Millions)';
 
     headerRow.appendChild(header1);
+    headerRow.appendChild(header2);
+    headerRow.appendChild(header3);
+    headerRow.appendChild(header4);
 
     table.appendChild(headerRow);
 
@@ -280,14 +283,14 @@ function createTable(formatData) {
 
     console.log("testtable", formatData)
 };
-///////////////////////////////////////////////////////////////////////////////
+//////////////// FUNCTION -- CALL PLOTS FOR VISUALIZATION --- ////////////////
 function plotAllVisuals () {
     let formatData = cleanData();
     plotSimpleBar(formatData);
     plotStackedBar(formatData);
-    plotBubbleChart(formatData);
+    // plotBubbleChart(formatData);
     createTable(formatData);
-    plotSimpleBubble(formatData);
+    // plotSimpleBubble(formatData);
 }
 
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
