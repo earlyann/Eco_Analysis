@@ -1,15 +1,14 @@
-let yearSelected = 2019
-let continentSelected = 'AF'
-
-// var yearURL = `http://127.0.0.1:5000/api/v1/countries?year${yearSelected}`
-var dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
-
 // define global variables
 let rawData = null
 
-//define constant arrays -- for drop down and to loop through
-const dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
-const dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
+let yearSelected = 2019
+let continentSelected = 'AF'
+
+//define global arrays -- for drop down and to loop through
+let dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
+let dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
+
+var dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
 
 ////////////////////////////////////////////////////t//////////////////////
 function cleanData() {
@@ -260,7 +259,6 @@ function createTable(formatData) {
     headerRow.appendChild(header4);
 
     table.appendChild(headerRow);
-
 
     formatData.forEach(fD => {
         const row = document.createElement('tr');
