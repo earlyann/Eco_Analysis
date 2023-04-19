@@ -100,44 +100,53 @@ function init() {
 
     // define event listener for drop down selection change on Year
   selectYr.on('change', function() {
+
+    // TreeMap Events
     yrTotal = selectYr.property("value")
     const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
-    // Fetch the JSON data and refresh charts using Total API
     d3.json(tChange).then(function(data) {
       rawData = data
-      console.log("YearSelection", rawData)
       plotTotal()
       plotGDP()
     });
 
+    // per Capita Events
     yrPC = selectYr.property("value")
     const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
-    // Fetch the JSON data and refresh charts using Per Cap API
     d3.json(changePC).then(function(data) {
       rawPC = data
       plotAllVisuals()
     });
+
+    // map Events
+    mapYr = selectYr.property("value")
+    const changeMap = `http://127.0.0.1:5000/api/v1/countries?year=${mapYr}`
+
+    d3.json(changeMap).then(function(data) {
+      mapData = data
+      setup()
+    });
   });
 
-    // define event listener for drop down selection change on Continent Code
+  // define event listener for drop down selection change on Continent Code
   selectCC.on('change', function() {
+
+    // TreeMap Events
     ccTotal = selectCC.property("value")
     const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
-    // Fetch the JSON data and assign properties to global variables
     d3.json(tChange).then(function(data) {
       rawData = data
-      console.log("YearSelection", rawData)
       plotTotal()
       plotGDP()
     });
 
+    //per Capita events
     ccPC = selectCC.property("value")            
     const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
-    // Fetch the JSON data and refresh charts using Per Cap API
     d3.json(changePC).then(function(data) {
         rawPC = data
         plotAllVisuals()
