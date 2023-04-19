@@ -1,14 +1,13 @@
 // define global variables
 let rawData = null
-
 let yearSelected = 2019
 let continentSelected = 'AF'
 
-//define global arrays -- for drop down and to loop through
-let dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
-let dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
-
-var dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+//define global constants -- for event handler and dropdown
+var selectYr = d3.select("#selYr")
+var selectCC = d3.select("#selCC")
+var dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
+var dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
 
 ////////////////////////////////////////////////////t//////////////////////
 function cleanData() {
@@ -69,7 +68,7 @@ function cleanData() {
 
 ///////////////////--STACKED BAR CHART IN APEX--///////////////////////////////
 function plotStackedBar (formatData) {
-    console.log("Test FD", formatData)
+
     var options = {
         series: [ 
             {name: 'Gas', data: (formatData.map(fD => fD.gas)), color: '#4A8DDC'},      
@@ -107,14 +106,18 @@ function plotStackedBar (formatData) {
           fontSize: '11'
         }
       };
-      
+    
+    const stackedbar = document.querySelector("#stackedBar");
+
+    stackedbar.innerHTML = '';
+
     var chart = new ApexCharts(document.querySelector("#stackedBar"), options);
     chart.render();
 };
 
 ///////////////////--SIMPLE BAR CHART IN APEX--///////////////////////////////
 function plotSimpleBar (formatData) {
-    console.log("Test FD", formatData)
+
     var options = {
         series: [ 
             {name: 'Total', data: (formatData.map(fD => fD.total)), color: '#4A8DDC'}],
@@ -147,95 +150,15 @@ function plotSimpleBar (formatData) {
           offsetX: 40
         }
       };
+     
+    const simpleBar = document.querySelector("#simpleBar");
+
+    simpleBar.innerHTML = '';
       
     var chart = new ApexCharts(document.querySelector("#simpleBar"), options);
+    
     chart.render();
 };
-// //////////////////////--APEX BUBBLE CHART --//////////////////////////////
-// function plotBubbleChart (formatData) {
-//     let dataBubble = formatData.map(dB => {
-//         return {
-//             name: dB.country,
-//             data: [[
-//                 dB.total,
-//                 dB.gdp,
-//                 dB.population
-//             ]]
-//         }
-//     })
-    
-//     let axisLimit = formatData.map(dB => {
-//         return {
-//             yaxis: dB.gdp
-//         }
-//     },)
-
-//     // Sort y-axis values to determin max
-//     axisLimit.sort((d1, d2) => {
-//         return d2.yaxis - d1.yaxis});
-
-//     var bubbleChart = new ApexCharts(
-//         document.querySelector('#bubble'), {
-//             chart: {type: 'bubble', },
-//             dataLabels: {enabled: false },
-//             series: dataBubble,
-//             fill: { opacity: 0.8 },
-//             title: { text: 'Simple Bubble Chart' },
-//             xaxis: {tickAmount: 10, type: 'category' },
-//             yaxis: {max: (axisLimit[0].yaxis)  }
-//         }
-//     );
-//     bubbleChart.render();
-// };
-// ///////////////-- PLOTLY BUBBLECHART -- ///////////////////////////////////
-// function plotSimpleBubble (formatData) {
-    
-//     var bubble = [{
-//         x: formatData.map(fD => fD.total),
-//         y: (formatData.map(fD => fD.gdp)),
-//         text: formatData.map(fD => fD.country),
-//         mode: 'markers',
-//         marker: {
-//             size:formatData.map(fD => fD.population),
-//             color:  formatData.map(fD => fD.total),
-//             colorscale: 'Portland',
-//             opacity: 0.8},},];
-
-//     var bubbleLayout = {
-//         title: {
-//             text: `Overview of a country's per Capita CO2 emissions & GDP` ,
-//             font: {
-//                 family: 'Times New Roman',
-//                 size: 18,
-//                 color: 'dark gray',
-//                 },
-//         },
-//         autosize: true,
-//         responsive: true,
-//         xaxis: {
-//             automargin: true,
-//             title: {
-//                 text: 'Total CO2 Emissions per Capita',
-//                 font: {
-//                     family: 'Times New Roman',
-//                     size: 14,
-//                     color: 'dark gray',
-//                     },
-//             },
-//         },
-//         yaxis: { 
-//             automargin: true,
-//             title: {
-//                 text: 'GDP per Capita',
-//                 font: {
-//                     family: 'Times New Roman',
-//                     size: 14,
-//                     color: 'dark gray',
-//                     },
-//             },
-//         },};
-
-// Plotly.newPlot('bubbles', bubble, bubbleLayout)};
 
 //////////////-- SUMMARY TABLE ----//////////////////////////////////
 function createTable(formatData) {
@@ -286,21 +209,17 @@ function plotAllVisuals () {
     let formatData = cleanData();
     plotSimpleBar(formatData);
     plotStackedBar(formatData);
-    // plotBubbleChart(formatData);
     createTable(formatData);
-    // plotSimpleBubble(formatData);
 }
 
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
 // function to read data, populate initial graphs
 function init() {
-
-    // use d3 to select drop down, assign to variable
-    var selectYr = d3.select("#selYr")
-    var selectCC = d3.select("#selCC")
     
+    const startPC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+
     // Fetch the JSON data and assign properties to global variables
-    d3.json(dataURL).then(function(data) {
+    d3.json(startPC).then(function(data) {
         rawData = data
         console.log("RawData", rawData)
 
@@ -322,30 +241,5 @@ function init() {
         });
         plotAllVisuals()
     });
-    
-        // define event listener for drop down selection change on Year
-        selectYr.on('change', function() {
-            yearSelected = selectYr.property("value")
-            dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
-
-        // Fetch the JSON data and assign properties to global variables
-                d3.json(dataURL).then(function(data) {
-                    rawData = data
-                    plotAllVisuals()
-                });
-            });
-
-        // define event listener for drop down selection change on Continent Code
-        selectCC.on('change', function() {
-            continentSelected = selectCC.property("value")            
-            dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
-
-        // Fetch the JSON data and assign properties to global variables
-                d3.json(dataURL).then(function(data) {
-                    rawData = data
-                    plotAllVisuals()
-                });
-            });
-        };
-
+};
 init();
