@@ -22,10 +22,12 @@ amount of CO2 released by human activity and the level of warming at the Earthâ€
 - Flask API 
 - HTML/CSS
 - JavaScript
+- D3
+- Apex Charts
 
 
 #### Datasets
-- CO2 emission totals and per capita for 200+ countries https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by
+- CO2 emission totals and per capita for 200+ countries: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
 - GDP and population data sourced from : https://databank.worldbank.org/reports.aspx?source=world-development-indicators#   
 - Continent code data:
 https://datahub.io/core/continent-codes 
