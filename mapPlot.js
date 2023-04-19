@@ -1,6 +1,6 @@
 //re-assign global variables
-yearselected = 2019
-dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
+let mapYr = 2019
+let mapData = null
 
 let myMap = L.map("map", {
   center: [15.5994, -28.6731],
@@ -14,6 +14,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 function baseMap () {
   // Use this link to get the GeoJSON data.
   let link = "countries.geojson";
+  
   // Getting our GeoJSON data
   d3.json(link).then(function(data) {
     // Creating a GeoJSON layer with the retrieved data
@@ -52,38 +53,17 @@ function baseMap () {
 // function to read data, populate initial graphs
 function setup() {
 
-  var dataURL = `http://127.0.0.1:5000/api/v1/countries?year=${yearselected}`
+  var mapURL = `http://127.0.0.1:5000/api/v1/countries?year=${mapYr}`
 
-  // use d3 to select drop down, assign to variable
-  var selectYr = d3.select("#selYr")
-  
   // Fetch the JSON data and assign properties to global variables
-  d3.json(dataURL).then(function(data) {
-      rawData = data
-      console.log("RawData", rawData)
+  d3.json(mapURL).then(function(data) {
+    mapData = data
+    console.log("RawData", rawData)
 
-      // append year to drop down selector
-      dropDownYear.reverse()
-      dropDownYear.forEach((sample) => {
-          selectYr
-              .append("option")
-              .text(sample)
-              .property("value", sample);
-      });
   });
   
-      // define event listener for drop down selection change on Year
-      selectYr.on('change', function() {
-          yearselected = selectYr.property("value")
-          dataURL = `http://127.0.0.1:5000/api/v1/countries?year=${yearselected}`
-          console.log("New URL", dataURL)
+  baseMap();
 
-      // Fetch the JSON data and assign properties to global variables
-              d3.json(dataURL).then(function(data) {
-                  rawData = data
-              });
-          });
-      };
+};
 
-baseMap();
 setup();
