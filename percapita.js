@@ -1,9 +1,9 @@
 // define global variables
-let rawData = null
-let yearSelected = 2019
-let continentSelected = 'AF'
+let rawPC = null
+let yrPC = 2019
+let ccPC = 'AF'
 
-//define global constants -- for event handler and dropdown
+//define global variables -- for event handler and dropdown
 var selectYr = d3.select("#selYr")
 var selectCC = d3.select("#selCC")
 var dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
@@ -13,7 +13,7 @@ var dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
 function cleanData() {
     // loop through data to generate list of countries for given year
     const cnty = []
-    rawData.forEach(rD => {
+    rawPC.forEach(rD => {
         if(!cnty.some(c => c === rD.Country)) {
             cnty.push(rD.Country)
         }
@@ -21,7 +21,7 @@ function cleanData() {
     
     // loop through data to generate list of categories for given year
     const categories = []    
-    rawData.forEach(rD => {
+    rawPC.forEach(rD => {
         if(!categories.some(c => c === rD.Category)) {
             categories.push(rD.Category)
         }
@@ -31,7 +31,7 @@ function cleanData() {
     // Outer Loop iterates over countries / Inner Loop iterates over Category. for each country returns object with category and value
     cnty.forEach ((c) => {
         const cntyCategories = []
-        rawData.forEach((rD) => {
+        rawPC.forEach((rD) => {
             if (rD.Country === c) {
                 if (categories.some((cC) => {
                     return cC === rD.Category
@@ -216,12 +216,12 @@ function plotAllVisuals () {
 // function to read data, populate initial graphs
 function init() {
     
-    const startPC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+    const startPC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
     // Fetch the JSON data and assign properties to global variables
     d3.json(startPC).then(function(data) {
-        rawData = data
-        console.log("RawData", rawData)
+        rawPC = data
+        console.log("RawData", rawPC)
 
         // append year to drop down selector
         dropDownYear.reverse()
