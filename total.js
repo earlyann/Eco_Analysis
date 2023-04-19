@@ -7,8 +7,9 @@ let ccTotal = 'AF'
 // let dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
 let rawData = null
 
+/////////////////////////TREEMAP - C02 ///////////////////////////////
 // define chart options for tree map
-var chartOptions = {
+var optionsCO2 = {
   series: [
     {
       data: []
@@ -21,16 +22,22 @@ var chartOptions = {
   title: {
     text: 'Countries by Total CO2 Emissions',
   },
+  // plotOptions: {
+  //   treemap: {
+  //     enableShades: true,
+  //     shadeIntensity: 5,
+  //     distributed: false,
+  //   }
+  // }
 };
 
-let chart = new ApexCharts(document.querySelector('#treemap'), chartOptions);
+let chart = new ApexCharts(document.querySelector('#treemap'), optionsCO2);
 chart.render();
 
 // updateChart for total CO2 Emission
-function updateChart() {
-  // console.log(rawData)
-  let filteredData = rawData.filter(d => d['Category'] == 'Total');
-  
+function plotTotal() {
+  let filteredData = rawData.filter(d => d['Category'] == 'Total')
+
   let chartData = filteredData.map(c => ({
     x: c['Country'], y: Math.floor(c.Value)}))
   
@@ -38,8 +45,49 @@ function updateChart() {
     data: chartData
   }]);
   console.log(chartData)
+};
 
-}
+/////////////////////////TREEMAP - GDP ///////////////////////////////
+// define chart options for tree map
+var optionsGDP = {
+  series: [
+    {
+      data: []
+    }
+  ],
+  chart: {
+    type: 'treemap',
+    height: 500,
+  },
+  title: {
+    text: 'Countries by Total GDP',
+  },
+  // plotOptions: {
+  //   treemap: {
+  //     enableShades: true,
+  //     shadeIntensity: 5,
+  //     distributed: false,
+  //   }
+  // }
+
+  
+};
+
+let chartgdp = new ApexCharts(document.querySelector('#treemapb'), optionsGDP);
+chartgdp.render();
+
+// updateChart for GDP
+function plotGDP() {
+  let filteredData = rawData.filter(d => d['Category'] == 'GDP (current US$)');
+    
+    let chartData = filteredData.map(c => ({
+      x: c['Country'], y: Math.floor(c.Value)/1000000}))
+    
+    chartgdp.updateSeries([{
+      data: chartData
+    }]);
+    console.log(chartData)
+};
 
 /////// SELECT YEAR //////
 // let yearSelect = document.querySelector('#selYr')
@@ -58,11 +106,11 @@ function updateChart() {
 
 // function to read data, populate initial graphs
 function init() {
-    var totalURL = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
+  var totalURL = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
   
   // Fetch the JSON data and assign properties to global variables
-    d3.json(totalURL).then(function(data) {
-        rawData = data
+  d3.json(totalURL).then(function(data) {
+    rawData = data
 
     //   dropDownYear.reverse()
     //   dropDownYear.forEach((sample) => {
@@ -79,51 +127,57 @@ function init() {
     //           .text(sample)
     //           .property("value", sample);
     //   });
-        updateChart(rawData);
-    });
+  plotTotal(rawData);
+  plotGDP(rawData)
+
+  ;
+  });
+
     // define event listener for drop down selection change on Year
-    selectYr.on('change', function() {
-        yrTotal = selectYr.property("value")
-        const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
+  selectYr.on('change', function() {
+    yrTotal = selectYr.property("value")
+    const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
-      // Fetch the JSON data and refresh charts using Total API
-        d3.json(tChange).then(function(data) {
-            rawData = data
-            console.log("YearSelection", rawData)
-            updateChart()
-        });
-
-        yrPC = selectYr.property("value")
-        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
-    
-        // Fetch the JSON data and refresh charts using Per Cap API
-        d3.json(changePC).then(function(data) {
-            rawPC = data
-            plotAllVisuals()
-        });
+    // Fetch the JSON data and refresh charts using Total API
+    d3.json(tChange).then(function(data) {
+      rawData = data
+      console.log("YearSelection", rawData)
+      plotTotal()
+      plotGDP()
     });
+
+    yrPC = selectYr.property("value")
+    const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
+
+    // Fetch the JSON data and refresh charts using Per Cap API
+    d3.json(changePC).then(function(data) {
+      rawPC = data
+      plotAllVisuals()
+    });
+  });
 
     // define event listener for drop down selection change on Continent Code
-    selectCC.on('change', function() {
-        ccTotal = selectCC.property("value")
-        const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
+  selectCC.on('change', function() {
+    ccTotal = selectCC.property("value")
+    const tChange = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
-      // Fetch the JSON data and assign properties to global variables
-        d3.json(tChange).then(function(data) {
-            rawData = data
-            console.log("YearSelection", rawData)
-            updateChart()
-        });
+    // Fetch the JSON data and assign properties to global variables
+    d3.json(tChange).then(function(data) {
+      rawData = data
+      console.log("YearSelection", rawData)
+      plotTotal()
+      plotGDP()
+    });
 
-        ccPC = selectCC.property("value")            
-        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
+    ccPC = selectCC.property("value")            
+    const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
        // Fetch the JSON data and refresh charts using Per Cap API
-        d3.json(changePC).then(function(data) {
-            rawPC = data
-            plotAllVisuals()
-        });
-     });
+    d3.json(changePC).then(function(data) {
+        rawPC = data
+        plotAllVisuals()
+    });
+  });
 };
 
 init();
