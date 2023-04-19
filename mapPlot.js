@@ -53,7 +53,7 @@ function baseMap () {
 // function to read data, populate initial graphs
 function setup() {
 
-  var mapURL = `http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`
+  const mapURL = `http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`
 
   // Fetch the JSON data and assign properties to global variables
   d3.json(mapURL).then(function(data) {
