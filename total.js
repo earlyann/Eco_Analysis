@@ -122,7 +122,7 @@ function init() {
 
     // map Events
     mapYr = selectYr.property("value")
-    const changeMap = `http://127.0.0.1:5000/api/v1/countries?year=${mapYr}`
+    const changeMap = `http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`
 
     d3.json(changeMap).then(function(data) {
       mapData = data
