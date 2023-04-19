@@ -1,13 +1,13 @@
 //define global arrays -- for drop down and to loop through
-let continentalRawData = null;
-let yearSelectedTotal = 2019
-let continentSelectedTotal = 'AF'
+let rawDataTotal = null;
+let yrSelecTotal = 2019
+let ccSelecTotal = 'AF'
 
 ////////////////////////////////////////////////////t//////////////////////
 function clean() {
     // loop through data to generate list of countries for given year
     const cnty = []
-    continentalRawData.forEach(rD => {
+    rawDataTotal.forEach(rD => {
         if(!cnty.some(c => c === rD.Country)) {
             cnty.push(rD.Country)
         }
@@ -15,7 +15,7 @@ function clean() {
     
     // loop through data to generate list of categories for given year
     const categories = []    
-    continentalRawData.forEach(rD => {
+    rawDataTotal.forEach(rD => {
         if(!categories.some(c => c === rD.Category)) {
             categories.push(rD.Category)
         }
@@ -25,7 +25,7 @@ function clean() {
     // Outer Loop iterates over countries / Inner Loop iterates over Category. for each country returns object with category and value
     cnty.forEach ((c) => {
         const cntyCategories = []
-        continentalRawData.forEach((rD) => {
+        rawDataTotal.forEach((rD) => {
             if (rD.Country === c) {
                 if (categories.some((cC) => {
                     return cC === rD.Category
@@ -83,11 +83,12 @@ function plotTreeMap (formatData) {
         }
     };
 
-    const treeEl = document.querySelector("#tree");
-    treeEl.innerHTML = '';
+    const tree = document.querySelector("#tree");
+
+    tree.innerHTML = '';
+    
     var chart = new ApexCharts(document.querySelector("#tree"), options);
     chart.render();
-
 }
 //////////////// FUNCTION -- CALL PLOTS FOR VISUALIZATION --- ////////////////
 function plot() {
@@ -98,57 +99,53 @@ function plot() {
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
 // function to read data, populate initial graphs
 function setup() {
-    const initialDataURLTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${continentSelectedTotal}?year=${yearSelectedTotal}`
+    const startTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
     
-    // Fetch the JSON data and assign properties to global variables
-    d3.json(initialDataURLTotal).then(function(data) {
-        continentalRawData = data
-        console.log("ContinentalRawData", continentalRawData)
-
+    // Fetch JSON data to load initial charts
+    d3.json(startTotal).then(function(data) {
+        rawDataTotal = data
+        console.log("rawDataTotal", rawDataTotal)
         plot()
     });
     
     // define event listener for drop down selection change on Year
     selectYr.on('change', function() {
-        yearSelectedTotal = selectYr.property("value")
-        const dataURLTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${continentSelectedTotal}?year=${yearSelectedTotal}`
+        yrSelecTotal = selectYr.property("value")
+        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
 
-        // Fetch the JSON data and assign properties to global variables
-        d3.json(dataURLTotal).then(function(data) {
-            continentalRawData = data
+        // Fetch the JSON data and refresh charts using Total API
+        d3.json(changeTotal).then(function(data) {
+            rawDataTotal = data
             plot()
         });
 
         yearSelected = selectYr.property("value")
-        const dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
 
-        // Fetch the JSON data and assign properties to global variables
-        d3.json(dataURL).then(function(data) {
+       // Fetch the JSON data and refresh charts using Per Cap API
+        d3.json(changePC).then(function(data) {
             rawData = data
-
             plotAllVisuals()
         });
     });
 
     // define event listener for drop down selection change on Continent Code
     selectCC.on('change', function() {
-        continentSelectedTotal = selectCC.property("value")            
-        const dataURLTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${continentSelectedTotal}?year=${yearSelectedTotal}`
+        ccSelecTotal = selectCC.property("value")            
+        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
 
-        // Fetch the JSON data and assign properties to global variables
-        d3.json(dataURLTotal).then(function(data) {
-            continentalRawData = data
-
+        // Fetch the JSON data and refresh charts using Total API
+        d3.json(changeTotal).then(function(data) {
+            rawDataTotal = data
             plot()
         });
 
         continentSelected = selectCC.property("value")            
-        const dataURL = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
 
-        // Fetch the JSON data and assign properties to global variables
-        d3.json(dataURL).then(function(data) {
+       // Fetch the JSON data and refresh charts using Per Cap API
+        d3.json(changePC).then(function(data) {
             rawData = data
-
             plotAllVisuals()
         });
     });
