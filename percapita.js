@@ -214,7 +214,7 @@ function plotAllVisuals () {
 
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
 // function to read data, populate initial graphs
-function init() {
+function first() {
     
     const startPC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
@@ -242,4 +242,4 @@ function init() {
         plotAllVisuals()
     });
 };
-init();
+first();
