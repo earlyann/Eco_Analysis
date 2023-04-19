@@ -1,13 +1,13 @@
 //set global variables
-let rawDataTotal = null;
-let yrSelecTotal = 2019
-let ccSelecTotal = 'AF'
+let rawTotal = null;
+let yrTotal = 2019
+let ccTotal = 'AF'
 
 ////////////////////////////////////////////////////t//////////////////////
 function clean() {
     // loop through data to generate list of countries for given year
     const cnty = []
-    rawDataTotal.forEach(rD => {
+    rawTotal.forEach(rD => {
         if(!cnty.some(c => c === rD.Country)) {
             cnty.push(rD.Country)
         }
@@ -15,7 +15,7 @@ function clean() {
     
     // loop through data to generate list of categories for given year
     const categories = []    
-    rawDataTotal.forEach(rD => {
+    rawTotal.forEach(rD => {
         if(!categories.some(c => c === rD.Category)) {
             categories.push(rD.Category)
         }
@@ -25,7 +25,7 @@ function clean() {
     // Outer Loop iterates over countries / Inner Loop iterates over Category. for each country returns object with category and value
     cnty.forEach ((c) => {
         const cntyCategories = []
-        rawDataTotal.forEach((rD) => {
+        rawTotal.forEach((rD) => {
             if (rD.Country === c) {
                 if (categories.some((cC) => {
                     return cC === rD.Category
@@ -99,53 +99,53 @@ function plot() {
 ////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
 // function to read data, populate initial graphs
 function setup() {
-    const startTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
+    const startTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
     
     // Fetch JSON data to load initial charts
     d3.json(startTotal).then(function(data) {
-        rawDataTotal = data
-        console.log("rawDataTotal", rawDataTotal)
+        rawTotal = data
+        console.log("rawDataTotal", rawTotal)
         plot()
     });
     
     // define event listener for drop down selection change on Year
     selectYr.on('change', function() {
-        yrSelecTotal = selectYr.property("value")
-        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
+        yrTotal = selectYr.property("value")
+        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
         // Fetch the JSON data and refresh charts using Total API
         d3.json(changeTotal).then(function(data) {
-            rawDataTotal = data
+            rawTotal = data
             plot()
         });
 
-        yearSelected = selectYr.property("value")
-        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+        yrPC = selectYr.property("value")
+        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
        // Fetch the JSON data and refresh charts using Per Cap API
         d3.json(changePC).then(function(data) {
-            rawData = data
+            rawPC = data
             plotAllVisuals()
         });
     });
 
     // define event listener for drop down selection change on Continent Code
     selectCC.on('change', function() {
-        ccSelecTotal = selectCC.property("value")            
-        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccSelecTotal}?year=${yrSelecTotal}`
+        ccTotal = selectCC.property("value")            
+        const changeTotal = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
 
         // Fetch the JSON data and refresh charts using Total API
         d3.json(changeTotal).then(function(data) {
-            rawDataTotal = data
+            rawTotal = data
             plot()
         });
 
-        continentSelected = selectCC.property("value")            
-        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${continentSelected}?year=${yearSelected}`
+        ccPC = selectCC.property("value")            
+        const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
        // Fetch the JSON data and refresh charts using Per Cap API
         d3.json(changePC).then(function(data) {
-            rawData = data
+            rawPC = data
             plotAllVisuals()
         });
     });
