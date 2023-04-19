@@ -1,4 +1,4 @@
-//define global arrays -- for drop down and to loop through
+//set global variables
 let rawDataTotal = null;
 let yrSelecTotal = 2019
 let ccSelecTotal = 'AF'
