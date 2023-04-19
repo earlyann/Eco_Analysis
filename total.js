@@ -2,9 +2,6 @@
 let yrTotal = 2019
 let ccTotal = 'AF'
 
-//define constant arrays -- for drop down and to loop through
-// let dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
-// let dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
 let rawData = null
 
 /////////////////////////TREEMAP - C02 ///////////////////////////////
@@ -20,7 +17,7 @@ var optionsCO2 = {
     height: 500,
   },
   title: {
-    text: 'Countries by Total CO2 Emissions',
+    text: 'Total CO2 Emissions by Country',
   },
   // plotOptions: {
   //   treemap: {
@@ -47,7 +44,7 @@ function plotTotal() {
   console.log(chartData)
 };
 
-/////////////////////////TREEMAP - GDP ///////////////////////////////
+/////////////////////////-- TREEMAP - GDP ///////////////////////////////
 // define chart options for tree map
 var optionsGDP = {
   series: [
@@ -60,7 +57,7 @@ var optionsGDP = {
     height: 500,
   },
   title: {
-    text: 'Countries by Total GDP',
+    text: 'Total GDP by Country',
   },
   // plotOptions: {
   //   treemap: {
@@ -89,21 +86,7 @@ function plotGDP() {
     console.log(chartData)
 };
 
-/////// SELECT YEAR //////
-// let yearSelect = document.querySelector('#selYr')
-// let continentSelect = document.querySelector('#selCC')
-
-// yearSelect.addEventListener('change', (event) => {yrTotal = parseInt(event.target.value)
-//   updateChart()
-// })
-
-// continentSelect.addEventListener('change', (event) => {
-//     ccTotal = event.target.value
-//   updateChart()
-// })
-
-///////FUNCTION - INITIALIZE DATA, EVENT HANDLER  ///////
-
+////////////////// -- FUNCTION - INITIALIZE DATA, EVENT HANDLER  ///////////////////
 // function to read data, populate initial graphs
 function init() {
   var totalURL = `http://127.0.0.1:5000/api/v1/continent_totals/${ccTotal}?year=${yrTotal}`
@@ -111,26 +94,8 @@ function init() {
   // Fetch the JSON data and assign properties to global variables
   d3.json(totalURL).then(function(data) {
     rawData = data
-
-    //   dropDownYear.reverse()
-    //   dropDownYear.forEach((sample) => {
-    //       selectYr
-    //           .append("option")
-    //           .text(sample)
-    //           .property("value", sample);
-    //   });
-
-    //   // append Continent Code to drop down selector
-    //   dropDownContinent.forEach((sample) => {
-    //       selectCC
-    //           .append("option")
-    //           .text(sample)
-    //           .property("value", sample);
-    //   });
-  plotTotal(rawData);
-  plotGDP(rawData)
-
-  ;
+    plotTotal(rawData);
+    plotGDP(rawData);
   });
 
     // define event listener for drop down selection change on Year
@@ -172,7 +137,7 @@ function init() {
     ccPC = selectCC.property("value")            
     const changePC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
-       // Fetch the JSON data and refresh charts using Per Cap API
+    // Fetch the JSON data and refresh charts using Per Cap API
     d3.json(changePC).then(function(data) {
         rawPC = data
         plotAllVisuals()
