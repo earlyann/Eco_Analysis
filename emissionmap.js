@@ -35,8 +35,8 @@ let legend = L.control({position: "bottomright"});
 // define legend function
     legend.onAdd = function() {
         let div = L.DomUtil.create("div", "info legend");
-        const total = [10, 30, 50, 100, 300, 700];
-        const colors = ["#27ae60","#9ccc65","#ffea00","#ffc107","#ff9800","#ff5722", "#d32f2f"];
+        const total = [0, 10, 30, 50, 100, 300, 700];
+        const colors = ["#27ae60", "#9ccc65", "#ffea00", "#ffc107", "#ff9800", "#ff5722", "#d32f2f"];
         let legendTitle = "<h4>Total CO2 emissions </h4>"
 
         div.innerHTML = legendTitle;
