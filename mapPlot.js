@@ -51,8 +51,8 @@ standard.addTo(map)
 
 
      // declare and initialize objects for visualizations
-    //  let features = data.features;
-     // console.log(data)
+     let features = data.features;
+     console.log(data)
  
      // // initialize array to see all earthquake depths
      // let depthArray = []
@@ -62,7 +62,7 @@ standard.addTo(map)
      // console.log(filteredata)
  
   //    // for loop to iterate through each earthquake
-  //    for (var f = 0; f < features.length; f++) {
+     for (var f = 0; f < features.length; f++) {
              
   //      // declare and initialize coordinate objects -- lat/long/depth
   //      let coords = features[f].geometry.coordinates;
