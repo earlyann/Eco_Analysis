@@ -44,9 +44,9 @@ function plotTotal() {
   console.log(chartData)
 };
 
-/////////////////////////-- TREEMAP - GDP ///////////////////////////////
+/////////////////////////-- TREEMAP - Population ///////////////////////////////
 // define chart options for tree map
-var optionsGDP = {
+var optionsPopulation = {
   series: [
     {
       data: []
@@ -70,17 +70,17 @@ var optionsGDP = {
   
 };
 
-let chartgdp = new ApexCharts(document.querySelector('#treemapb'), optionsGDP);
-chartgdp.render();
+let chartPopulation = new ApexCharts(document.querySelector('#treemapb'), optionsPopulation);
+chartPopulation.render();
 
-// updateChart for GDP
-function plotGDP() {
+// updateChart for Population
+function plotPopulation() {
   let filteredData = rawData.filter(d => d['Category'] == 'Population, total');
     
     let chartData = filteredData.map(c => ({
       x: c['Country'], y: Math.floor(c.Value)/1000000}))
     
-    chartgdp.updateSeries([{
+    chartPopulation.updateSeries([{
       data: chartData
     }]);
     console.log(chartData)
@@ -95,7 +95,7 @@ function init() {
   d3.json(totalURL).then(function(data) {
     rawData = data
     plotTotal(rawData);
-    plotGDP(rawData);
+    plotPopulation(rawData);
   });
 
     // define event listener for drop down selection change on Year
@@ -108,7 +108,7 @@ function init() {
     d3.json(tChange).then(function(data) {
       rawData = data
       plotTotal()
-      plotGDP()
+      plotPopulation()
     });
 
     // per Capita Events
@@ -140,7 +140,7 @@ function init() {
     d3.json(tChange).then(function(data) {
       rawData = data
       plotTotal()
-      plotGDP()
+      plotPopulation()
     });
 
     //per Capita events
