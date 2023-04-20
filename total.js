@@ -57,7 +57,7 @@ var optionsGDP = {
     height: 500,
   },
   title: {
-    text: 'Total GDP by Country',
+    text: 'Total Population by Country',
   },
   // plotOptions: {
   //   treemap: {
@@ -75,7 +75,7 @@ chartgdp.render();
 
 // updateChart for GDP
 function plotGDP() {
-  let filteredData = rawData.filter(d => d['Category'] == 'GDP (current US$)');
+  let filteredData = rawData.filter(d => d['Category'] == 'Population, total');
     
     let chartData = filteredData.map(c => ({
       x: c['Country'], y: Math.floor(c.Value)/1000000}))
