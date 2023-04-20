@@ -21,10 +21,10 @@ The objective of this project is to conduct a comprehensive analysis of global C
 - Apex Charts: https://apexcharts.com/
 
 #### Datasets:
-CO2 emissions (total and per capita) for over 200 countries: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
-GDP and population data: https://databank.worldbank.org/reports.aspx?source=world-development-indicators#
-Continent code data: https://datahub.io/core/continent-codes
-Country latitude/longitude data: https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/
+- CO2 emissions (total and per capita) for over 200 countries: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
+- GDP and population data: https://databank.worldbank.org/reports.aspx?source=world-development-indicators#
+- Continent code data: https://datahub.io/core/continent-codes
+- Country latitude/longitude data: https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/
 
 ### Project Implementation:
 The provided notebook consolidates all data sources and constructs a MongoDB database with a single collection. Subsequently, the app.py file queries the database to generate various RESTful endpoints, which facilitate interactive visualizations of our findings. To execute the database, first create it in MongoDB using the notebook, then host the app.py file locally to run the API.
