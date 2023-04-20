@@ -31,8 +31,8 @@ amount of CO2 released by human activity and the level of warming at the Earthâ€
 - GDP and population data sourced from : https://databank.worldbank.org/reports.aspx?source=world-development-indicators#   
 - Continent code data:
 https://datahub.io/core/continent-codes 
-- Geojson for each country sourced from:
-Countries geojson was sourced from: https://datahub.io/core/geo-countries#resource-geo-countries_zip  
+- Latitude/longitude for each country sourced from: [https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/([url](https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/?dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6IndvcmxkLWFkbWluaXN0cmF0aXZlLWJvdW5kYXJpZXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImNvbHVtbiIsImZ1bmMiOiJDT1VOVCIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRjUxNUEifV0sInhBeGlzIjoic3RhdHVzIiwibWF4cG9pbnRzIjo1MCwic29ydCI6IiJ9XSwidGltZXNjYWxlIjoiIiwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZX0%3D))
+ 
  
 #### Project details:
 - Create an interactive map showing global CO2 levels at a point in time that allows users 
