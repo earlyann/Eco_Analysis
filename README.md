@@ -1,47 +1,44 @@
 
-### Eco-Analysis - Examining Global Emissions, GDP and Population
+## Eco-Analysis - Examining Global Emissions, GDP and Population
 
-#### Project Summary: 
-The aim of our project is to look in-depth into the global CO2 emissions at the country-level by 
-source (coal, oil, gas, cement, flaring, other) and per capita allowing for a better understanding of
-how much each country contributes to the global cumulative human impact on climate. We will 
-examine relationships between emissions at the country level and GDP trends for a given year. 
-We believe that global CO2 emissions matters as there is a linear relationship between the total 
-amount of CO2 released by human activity and the level of warming at the Earth’s surface.
+### Project Overview:
+The objective of this project is to conduct a comprehensive analysis of global CO2 emissions at the country level, considering factors such as emission sources (coal, oil, gas, cement, flaring, and others) and per capita emissions. By doing so, we aim to enhance our understanding of each country's contribution to the cumulative human impact on climate change. Furthermore, we will explore the correlations between country-level emissions and GDP trends within specific years. Our motivation stems from the understanding that there is a direct relationship between the total amount of CO2 released by human activities and the degree of warming experienced at the Earth's surface.
 
-#### Questions to consider:
-- GDP per capita by country and potential impact of global emissions
-- Relationship between population and per capita emissions
-- Per capita emissions by type (coal, gas, oil, cement, flaring, other)
-- How a country’s emissions level affects it’s GDP
-- What happens to GDP when emissions level gradually decreases
+#### Key Questions:
+- The influence of GDP per capita by country on global emissions
+- The correlation between population and per capita emissions
+- Per capita emissions by source (coal, gas, oil, cement, flaring, and others)
+- The impact of a country's emissions level on its GDP
+- GDP implications when emissions levels are gradually reduced
 
-#### Technologies Used
+#### Technologies Employed:
 - Python/Pandas
 - MongoDB
-- Flask API 
+- Flask API
 - HTML/CSS
 - JavaScript
 - D3
 - Apex Charts
 
+#### Datasets:
+CO2 emissions (total and per capita) for over 200 countries: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
+GDP and population data: https://databank.worldbank.org/reports.aspx?source=world-development-indicators#
+Continent code data: https://datahub.io/core/continent-codes
+Country latitude/longitude data: https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/
 
-#### Datasets
-- CO2 emission totals and per capita for 200+ countries: https://www.kaggle.com/datasets/thedevastator/global-fossil-co2-emissions-by-country-2002-2022
-- GDP and population data sourced from : https://databank.worldbank.org/reports.aspx?source=world-development-indicators#   
-- Continent code data:
-https://datahub.io/core/continent-codes 
-- Latitude/longitude for each country sourced from: [https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/([url](https://public.opendatasoft.com/explore/embed/dataset/world-administrative-boundaries/table/?dataChart=eyJxdWVyaWVzIjpbeyJjb25maWciOnsiZGF0YXNldCI6IndvcmxkLWFkbWluaXN0cmF0aXZlLWJvdW5kYXJpZXMiLCJvcHRpb25zIjp7fX0sImNoYXJ0cyI6W3siYWxpZ25Nb250aCI6dHJ1ZSwidHlwZSI6ImNvbHVtbiIsImZ1bmMiOiJDT1VOVCIsInNjaWVudGlmaWNEaXNwbGF5Ijp0cnVlLCJjb2xvciI6IiNGRjUxNUEifV0sInhBeGlzIjoic3RhdHVzIiwibWF4cG9pbnRzIjo1MCwic29ydCI6IiJ9XSwidGltZXNjYWxlIjoiIiwiZGlzcGxheUxlZ2VuZCI6dHJ1ZSwiYWxpZ25Nb250aCI6dHJ1ZX0%3D))
- 
- 
-#### Project details:
-- Create an interactive map showing global CO2 levels at a point in time that allows users 
-to visualize trends by country or continent across all fossil fuel sources
-- Compare/Visualize emissions by type (coal, gas, oil, cement, flaring, other) using a summary table,
-bar chart and bubble chart
+### Project Implementation:
+The provided notebook consolidates all data sources and constructs a MongoDB database with a single collection. Subsequently, the app.py file queries the database to generate various RESTful endpoints, which facilitate interactive visualizations of our findings. To execute the database, first create it in MongoDB using the notebook, then host the app.py file locally to run the API.
 
+#### The visualizations include:
 
-Contributors:
+- A world map displaying global CO2 levels for a specific year, enabling users to observe trends by country or continent across all fossil fuel sources.
+- Paired bar charts: one presenting total CO2 emissions data for every country within a continent, and another adjacent stacked bar chart delineating the emissions sources.
+- A summary table containing complete data for a continent during the selected year.
+- Dual tree graphs, with one illustrating total emissions for all countries within the selected continent, and the other presenting population data.
+
+Our interactive visualizations provide users with an accessible and comprehensive understanding of global CO2 emissions, GDP, and population dynamics. By presenting data in various formats, users can easily identify trends and correlations, uncovering insights into emissions sources, GDP-emissions relationships, and the role of population. These visualizations offer a clear perspective on global emissions, empowering stakeholders to make informed decisions and devise effective strategies to combat climate change.
+
+#### Contributors:
 Haddi Fadia
 Erica Graboyes
 Daniela Castellon
