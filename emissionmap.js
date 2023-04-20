@@ -24,11 +24,61 @@ let map = L.map("map", {
     layers: [base, totalEmissions]
 });
 
-// Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
+// Create a layer control add the layer control to the map.
 L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 }).addTo(map);
 
+// create a legend
+let legend = L.control({position: "bottomright"});
+
+// define legend function
+    legend.onAdd = function() {
+        let div = L.DomUtil.create("div", "info legend");
+        const total = [10, 30, 50, 100, 300, 700];
+        const colors = ["#27ae60","#9ccc65","#ffea00","#ffc107","#ff9800","#ff5722", "#d32f2f"];
+        let legendTitle = "<h4>Total CO2 emissions </h4>"
+
+        div.innerHTML = legendTitle;
+
+        // use for loop to iterate through colors and depths; pair color with orresponding depth, using index position.
+        for (var i = 0; i < total.length; i++) {
+            console.log(colors[i]);
+            div.innerHTML +=
+            "<i style=\"background: " + colors[i] + "\"></i>" +
+            total[i] + (total[i + 1] ? " to " + total[i + 1] + "<br>" : "+");}
+        return div;};
+
+//////////////////////////////////---  CIRCLE COLORS & SIZE  ----- ///////////////////////////////////////////
+// functions to style earthquake markers / https://www.color-hex.com/color-palettes/?page=4 (color scheme)
+
+// define function to determine circle color based on earthquake depth
+function setColor(total) {
+    if(total < 10 ) {
+      return "#27ae60";}
+    else if (total < 30 ) {
+      return "#9ccc65";}
+
+    else if(total < 50) {
+      return "#ffea00" ;}
+
+    else if(total < 100) {
+      return "#ffc107";}
+
+    else if(total < 300) {
+      return "#ff9800";}
+
+    else if(total < 700) {
+      return "#ff5722";}
+
+    return "#d32f2f"}; 
+  
+  // define function to determine circle size
+  function setSize(gdp) {
+  if(gdp === 0) {
+    return 1;}
+    return 3};
+  
 //////////////////////////////////////////////////////////////////////////////////////////
 function createMarkers(response) {
     // Pull the "stations" property from response.data.
@@ -85,24 +135,33 @@ function createMarkers(response) {
     console.log("Test LatLong", mapData)
 
     // Loop through the array.
-    for (let index = 0; index < mapData.length; index++) {
-        let mapD = mapData[index];
+    for (var m = 0; m < mapData.length; m ++) {
 
-        L.circleMarker([mapD.lat, mapD.lon],{
+        let lat = mapData[m].lat;
+        let lon = mapData[m].lon;
+        let countryname = mapData[m].country;
+        let total = mapData[m].total;
+        let population = mapData[m].population;
+        let gdp = mapData[m].gdp
+
+        L.circleMarker([lat, lon],{
                 fillOpacity:1,
                 clickable: true,
-                stroke: true,
-                color: "black",
+                stroke: true,   
                 weight: 0.25,
-})
-        .bindPopup("<h5>" + mapD.country + "<h5><h5>Total CO2 Emissions: " + mapD.total + "</h5>").addTo(totalEmissions)
+                fillColor: setColor(total),
+                radius: 10})
+
+        .bindPopup("<h5><b>Country: </b>" + countryname + "<h5><b>Total CO2 Emissions: </b>" + total + "<h5><b>Population in Millions: </b>" + population).addTo(totalEmissions)
     };
 
     totalEmissions.addTo(map);
+    
+    legend.addTo(map)
+
 };
   
 // Perform an API call to API to get the emissions information. Call createMarkers when it completes.
 const startMap = `http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`
   
 d3.json(startMap).then(createMarkers);
-  
