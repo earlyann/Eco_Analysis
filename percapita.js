@@ -188,11 +188,11 @@ function createTable(formatData) {
         let td1 = document.createElement('td');
         td1.innerText = fD.country;
         let td2 = document.createElement('td');
-        td2.innerText = (fD.total).toFixed(3);
+        td2.innerText = (fD.total).toFixed(2);
         let td3 = document.createElement('td');
-        td3.innerText = (Number(fD.gdp)).toFixed(3);
+        td3.innerText = (Number(fD.gdp)).toFixed(2);
         let td4 = document.createElement('td');
-        td4.innerText = (fD.population).toFixed(3);
+        td4.innerText = (fD.population).toFixed(2);
         
         row.appendChild(td1);
         row.appendChild(td2);
