@@ -1,6 +1,6 @@
 // Setting up year and continent selection
 let yrTotal = 2019
-let ccTotal = 'AF'
+let ccTotal = 'SA'
 
 let rawData = null
 
@@ -19,13 +19,6 @@ var optionsCO2 = {
   title: {
     text: 'Total CO2 Emissions by Country',
   },
-  // plotOptions: {
-  //   treemap: {
-  //     enableShades: true,
-  //     shadeIntensity: 5,
-  //     distributed: false,
-  //   }
-  // }
 };
 
 let chart = new ApexCharts(document.querySelector('#treemap'), optionsCO2);
@@ -41,12 +34,11 @@ function plotTotal() {
   chart.updateSeries([{
     data: chartData
   }]);
-  console.log(chartData)
 };
 
-/////////////////////////-- TREEMAP - GDP ///////////////////////////////
+/////////////////////////-- TREEMAP -- Population ///////////////////////////////
 // define chart options for tree map
-var optionsGDP = {
+var optionsPopulation = {
   series: [
     {
       data: []
@@ -59,31 +51,21 @@ var optionsGDP = {
   title: {
     text: 'Total Population by Country',
   },
-  // plotOptions: {
-  //   treemap: {
-  //     enableShades: true,
-  //     shadeIntensity: 5,
-  //     distributed: false,
-  //   }
-  // }
-
-  
 };
 
-let chartgdp = new ApexCharts(document.querySelector('#treemapb'), optionsGDP);
-chartgdp.render();
+let chartPopulation = new ApexCharts(document.querySelector('#treemapb'), optionsPopulation);
+chartPopulation.render();
 
-// updateChart for GDP
-function plotGDP() {
+// updateChart for Population
+function plotPopulation() {
   let filteredData = rawData.filter(d => d['Category'] == 'Population, total');
     
     let chartData = filteredData.map(c => ({
       x: c['Country'], y: Math.floor(c.Value)/1000000}))
     
-    chartgdp.updateSeries([{
+    chartPopulation.updateSeries([{
       data: chartData
     }]);
-    console.log(chartData)
 };
 
 ////////////////// -- FUNCTION - INITIALIZE DATA, EVENT HANDLER  ///////////////////
@@ -95,10 +77,11 @@ function init() {
   d3.json(totalURL).then(function(data) {
     rawData = data
     plotTotal(rawData);
-    plotGDP(rawData);
+    plotPopulation(rawData);
   });
 
-    // define event listener for drop down selection change on Year
+////////////// EVENT LISTENER FOR YEAR AND CONTINENT CODE PARAMETERS -- 3 different API endpoints////////////////////    
+  // define event listener for drop down selection change on Year
   selectYr.on('change', function() {
 
     // TreeMap Events
@@ -108,7 +91,7 @@ function init() {
     d3.json(tChange).then(function(data) {
       rawData = data
       plotTotal()
-      plotGDP()
+      plotPopulation()
     });
 
     // per Capita Events
@@ -137,7 +120,7 @@ function init() {
     d3.json(tChange).then(function(data) {
       rawData = data
       plotTotal()
-      plotGDP()
+      plotPopulation()
     });
 
     //per Capita events
