@@ -1,4 +1,4 @@
-let coords = [
+let coords =[
   {
     "Country Code": "AFG",
     "lat": 34.51666667,
