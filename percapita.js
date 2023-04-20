@@ -1,13 +1,13 @@
 // define global variables
 let rawPC = null
 let yrPC = 2019
-let ccPC = 'AF'
+let ccPC = 'SA'
 
 //define global variables -- for event handler and dropdown
 var selectYr = d3.select("#selYr")
 var selectCC = d3.select("#selCC")
 var dropDownYear = [1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019]
-var dropDownContinent = ["AF", "AS", "EU", "NA", "OC", "SA"]
+var dropDownContinent = ["SA","OC", "NA","EU","AS", "AF"]
 
 ////////////////////////////////////////////////////t//////////////////////
 function cleanData() {
@@ -59,7 +59,6 @@ function cleanData() {
         });
     });
     
-    // Sort bargraph data by total emissions for stacked bar chart 
     formatData.sort((d1, d2) => {
         return d2.total - d1.total});
 
@@ -108,28 +107,29 @@ function plotStackedBar (formatData) {
       };
     
     const stackedbar = document.querySelector("#stackedBar");
-
     stackedbar.innerHTML = '';
 
     var chart = new ApexCharts(document.querySelector("#stackedBar"), options);
     chart.render();
 };
 
-///////////////////--SIMPLE BAR CHART IN APEX--///////////////////////////////
+//////////////-- APEX - BARCHART ----////////////////////////
 function plotSimpleBar (formatData) {
 
-    var options = {
-        series: [ 
-            {name: 'Total', data: (formatData.map(fD => fD.total)), color: '#4A8DDC'}],
-
-        plotOptions: {
+  var options = {
+    series: [ 
+      {name: 'Total', data: (formatData.map(fD => fD.total)), color: '#4A8DDC'}],
+      plotOptions: {
           bar: {horizontal: true, dataLabels: {position: 'right'}},},
 
         dataLabels: {
           enabled: true,
           textAnchor: "left",
-          style: {colors: ["#000"]}},
-
+          style: {
+            fontSize: '11px',
+            fontFamily: 'Arial',
+            colors: ["#000"]}
+        },
         chart: {
           type: 'bar',
           height: 800,
@@ -152,15 +152,13 @@ function plotSimpleBar (formatData) {
       };
      
     const simpleBar = document.querySelector("#simpleBar");
-
     simpleBar.innerHTML = '';
       
     var chart = new ApexCharts(document.querySelector("#simpleBar"), options);
-    
     chart.render();
 };
 
-//////////////-- SUMMARY TABLE ----//////////////////////////////////
+//////////////-- SUMMARY TABLE ----////////////////////////
 function createTable(formatData) {
     
     const table = document.querySelector("#myTable")
@@ -201,21 +199,19 @@ function createTable(formatData) {
 
         table.appendChild(row);
     })
-
-    console.log("testtable", formatData)
 };
+
 //////////////// FUNCTION -- CALL PLOTS FOR VISUALIZATION --- ////////////////
 function plotAllVisuals () {
     let formatData = cleanData();
     plotSimpleBar(formatData);
     plotStackedBar(formatData);
     createTable(formatData);
-}
+};
 
-////////////////////  FUNCTION - INITIALIZE DATA, EVENT HANDLER  //////////////////
+////////////////////  FUNCTION - INITIALIZE DATA, ----- //////////////////
 // function to read data, populate initial graphs
 function first() {
-    
     const startPC = `http://127.0.0.1:5000/api/v1/continent_per_capita/${ccPC}?year=${yrPC}`
 
     // Fetch the JSON data and assign properties to global variables
