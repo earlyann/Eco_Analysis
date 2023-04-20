@@ -108,5 +108,7 @@ function createMap(totalEmissions) {
   }
   
   // Perform an API call to API to get the emissions information. Call createMarkers when it completes.
-  d3.json(`http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`).then(createMarkers);
+  const startMap = `http://127.0.0.1:5000/api/v1/countries_totals?year=${mapYr}`
+  
+  d3.json(startMap).then(createMarkers);
   
