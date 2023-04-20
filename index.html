@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CO2 Emissions Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Leaflet JavaScript code -->
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+
+  <!-- D3 JavaScript -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+
+<style>
+  /* DropDown Selector */
+  .stylemenu {
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 10px;
+    border-radius: 15px;
+    height: 90px;
+  }
+
+  /*Section Header - Text */
+  .panel-section {
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 15px;
+    border-radius: 25px;
+    margin-top: 31px;
+  }
+
+  .panel-primary>.header-section {
+    height: 50px;
+    background-color:rgb(60, 90, 100);
+    border-bottom-color: rgb(242, 242, 242);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .panel-title {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.7;
+  }
+
+  #myTable {
+    width: 100%;
+  }
+
+  #myTable > tr {
+    width: 100%;
+  }
+
+  #myTable > tr > th {
+    width: 25%;
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  #myTable > tr > td {
+    width: 25%;
+    border: 1px solid black;
+    text-align: center;
+  }
+
+/* chart boxes */
+/* .panel-graphs {
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+  } */
+
+</style>
+
+<body>
+
+  <div class="container">
+    <!--header for dashboard-->
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Eco Analysis</h1>
+      </div>
+    </div>
+    <hr>
+
+    <!--Dashboard Overview -->
+    <div class = "row">
+      <h2 class = "DashboardTitle"> Dashboard Overview</h2>
+      <hr>
+      <h4> Use the interactive graphics on this page to explore global data related to CO2 Emissions (total and by component) and the country's GDP, Population </h4><br>
+
+      <!--DropDowns -->
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+              <h5 class="title-selectYr">Select Year.:</h5>
+              <select id="selYr"></select>
+          </div></div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+            <h5 class="title-selectCC">Select Continent.:</h5>
+            <select id="selCC"></select>
+          </div>
+        </div></div>
+<!-- 
+      <p class="DashboardDescription"> 
+        <br>
+        <br> <u><b> There are four different visuals displayed on the dashboard: </b></u><br>
+        <ol> 
+          <li> <b> Summary Table:</b></li>
+          <li> <b> Map :</b>  </li>
+          <li> <b> Stacked Bar Chart: </b> </li>
+          <li> <b> Bubble Chart: </b> </li>
+        </ol><br>
+    </div> -->
+
+    <div class="row">
+      <div class="panel panel-primary panel-section">
+        <div class="header-section">
+          <h3 class="panel-title">Analyzing Global CO2 Emissions</h3>  
+        </div>
+      </div>
+    </div>
+    <!-- map div -->
+    <div class="row">
+    <div class="col-md-10">
+    <div id="map" style="width: 1225px; height: 750px"></div></div></div>
+
+    <!-- table-->
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title"> A closer look at key metrics</h3>  
+          </div>
+        </div>
+      <table id="myTable">
+        <!-- <tr>
+          <th> Country </th>
+          <th> Total CO2 per Capita</th>
+          <th> GDP per Capita</th>
+          <th> Population </th>
+        </tr> -->
+      </table>
+      </div>
+
+    <div class="row">
+      <div class="panel panel-primary panel-section">
+        <div class="header-section">
+          <h3 class="panel-title">Analyzing Per Capita CO2 Emissions - by Country</h3>  
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div id="simpleBar"></div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+          <div id="stackedBar"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title">  A closer look at a continent's Total CO2 Emissions</h3>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div id="treemap"></div>>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title"> A closer look at a continent's population (in Millions) </h3>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div id="treemapb"></div>>
+        </div>
+      </div>
+      
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="latlng.js"></script>  
+  <script src="percapita.js"></script>
+  <script src="emissionmap.js"></script>
+  <script src="total.js"></script>
+
+  <!-- <script src="mapPlot.js"></script> -->
+  
+</body>
+
+</html>
