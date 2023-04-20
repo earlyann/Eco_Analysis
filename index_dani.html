@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<<<<<<< HEAD
+  <title>Analyzing CO2 Emissions and GDP</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+=======
+  <title>CO2 Emissions Analysis</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.3/dist/leaflet.css"
+  integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+  crossorigin=""/>
+
+  <!-- Leaflet JavaScript code -->
+  <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+  integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+  crossorigin=""></script>
+
+  <!-- D3 library -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+</head>
+
+
+<style>
+  /* DropDown Selector */
+  .stylemenu {
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+<<<<<<< HEAD
+    padding: 20px;
+    border-radius: 25px;
+    height: 135px;
+  }
+
+  .title-subjectID {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    color: rgb(60, 90, 100);
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+
+  /*Demographic Info */
+  .panel-demographic {
+=======
+    padding: 10px;
+    border-radius: 15px;
+    height: 90px;
+  }
+
+  /*Section Header - Text */
+  .panel-section {
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 15px;
+    border-radius: 25px;
+    margin-top: 31px;
+  }
+
+<<<<<<< HEAD
+  .panel-primary>.header-demographic {
+=======
+  .panel-primary>.header-section {
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+    height: 50px;
+    background-color:rgb(60, 90, 100);
+    border-bottom-color: rgb(242, 242, 242);
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .panel-title {
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+    line-height: 1.7;
+  }
+
+<<<<<<< HEAD
+/* chart boxes */
+.panel-graphs {
+=======
+  #myTable {
+    width: 100%;
+  }
+
+  #myTable > tr {
+    width: 100%;
+  }
+
+  #myTable > tr > th {
+    width: 25%;
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  #myTable > tr > td {
+    width: 25%;
+    border: 1px solid black;
+    text-align: center;
+  }
+
+/* chart boxes */
+/* .panel-graphs {
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+    border-color: rgb(206, 206, 206);
+    box-shadow: 0 8px 14px -6px rgb(74, 74, 74);
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+<<<<<<< HEAD
+  }
+=======
+  } */
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+
+</style>
+
+<body>
+
+  <div class="container">
+    <!--header for dashboard-->
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+<<<<<<< HEAD
+        <h1>CO2 Emissions Analytics Project</h1>
+      </div>
+    </div>
+    <hr>
+    <!--Dashboard Overview -->
+    <div class = "row">
+      <h2 class = "DashboardTitle"> Project Overview</h2>
+    </div>
+    <div class="row">
+      <!--Demographic Panel and DropDowns -->
+      <div class="col-md-2">
+        <div class="well stylemenu">
+          <h5 class="title-selectYr">Select Year.:</h5>
+          <select id="selYr"></select>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="well stylemenu">
+          <h5 class="title-selectCC">Select Continent.:</h5>
+          <select id="selCC"></select>
+        </div>
+      </div>
+        <div class="panel panel-primary panel-demographic">
+          <div class="header-demographic">
+            <h3 class="panel-title">Summary Statistics</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+        </div>
+      </div>
+      <div class="col-md-8 panel-graphs">
+        <div id="gauge"></div>
+      </div>
+      <div class="col-md-5 panel-graphs">
+        <div id="bar"></div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 panel-graphs">
+        <div id="treemap"></div>
+      </div>
+    </div>
+          
+  </div>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <!-- <script src="app_treemapCO2.js"></script> -->
+  <script src="app_treemapGDP.js"></script>
+
+  <!-- <script src="graphPerCapita.js"></script> -->
+=======
+        <h1>Eco Analysis</h1>
+      </div>
+    </div>
+    <hr>
+
+    <!--Dashboard Overview -->
+    <div class = "row">
+      <h2 class = "DashboardTitle"> Dashboard Overview</h2>
+      <hr>
+      <h4> Use the interactive graphics on this page to explore the belly button dataset </h4><br>
+
+      <!--DropDowns -->
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+              <h5 class="title-selectYr">Select Year.:</h5>
+              <select id="selYr"></select>
+          </div></div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <div class="well stylemenu">
+            <h5 class="title-selectCC">Select Continent.:</h5>
+            <select id="selCC"></select>
+          </div>
+        </div></div>
+<!-- 
+      <p class="DashboardDescription"> 
+        <br>
+        <br> <u><b> There are four different visuals displayed on the dashboard: </b></u><br>
+        <ol> 
+          <li> <b> Summary Table:</b></li>
+          <li> <b> Map :</b>  </li>
+          <li> <b> Stacked Bar Chart: </b> </li>
+          <li> <b> Bubble Chart: </b> </li>
+        </ol><br>
+    </div> -->
+
+    <div class="row">
+      <div class="panel panel-primary panel-section">
+        <div class="header-section">
+          <h3 class="panel-title">"Placeholder Title for Chlorepleth"</h3>  
+        </div>
+      </div>
+    </div>
+    <!-- map div -->
+    <div class="row">
+    <div class="col-md-10">
+    <div id="map" style="width: 1225px; height: 750px"></div></div></div>
+
+    <!-- table-->
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title"> KPI Summary</h3>  
+          </div>
+        </div>
+      <table id="myTable">
+        <!-- <tr>
+          <th> Country </th>
+          <th> Total CO2 per Capita</th>
+          <th> GDP per Capita</th>
+          <th> Population </th>
+        </tr> -->
+      </table>
+      </div>
+
+    <div class="row">
+      <div class="panel panel-primary panel-section">
+        <div class="header-section">
+          <h3 class="panel-title">Per Capita CO2 Emissions - by Country</h3>  
+        </div>
+      </div>
+    </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <div id="simpleBar"></div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+          <div id="stackedBar"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title">  Comparing relative magnitude of Total Emissions</h3>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div id="treemap"></div>>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="panel panel-primary panel-section">
+          <div class="header-section">
+            <h3 class="panel-title"> Comparing relative magnitude of GDP </h3>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-10">
+          <div id="treemapb"></div>>
+        </div>
+      </div>
+      
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="percapita.js"></script>
+  <script src="total.js"></script>
+  <script src="mapPlot.js"></script>
+>>>>>>> f3d8632e1b711a7acb04f2da20da5bdc97dff50f
+  
+</body>
+
+</html>
